@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>JavaScript Snippets - ClariS</title>
+
+  
+    <meta name="description" content=":::info收集的一些常用的 JavaScript 代码片段::: 将给定字符串中每个单词的首字母转为大写1234const capitalizeWord &#x3D; (string) &#x3D;&gt;  string.replace(&#x2F;\b[a-z]&#x2F;g, (char) &#x3D;&gt; char.toUpperCase());console.log(capitalizeWord(&quot;hello worl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JavaScript Snippets">
+<meta property="og:url" content="http://example.com/2021/07/23/javascript-snippets/index.html">
+<meta property="og:site_name" content="ClariS">
+<meta property="og:description" content=":::info收集的一些常用的 JavaScript 代码片段::: 将给定字符串中每个单词的首字母转为大写1234const capitalizeWord &#x3D; (string) &#x3D;&gt;  string.replace(&#x2F;\b[a-z]&#x2F;g, (char) &#x3D;&gt; char.toUpperCase());console.log(capitalizeWord(&quot;hello worl">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-07-23T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-07T03:15:13.675Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="JavaScript Snippets">
+<meta property="article:tag" content="Tool function">
+<meta name="twitter:card" content="summary_large_image">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css" />
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/assets/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">ClariS</div><div class="sub normal cap">标题1</div><div class="sub hover cap" style="opacity:0"> 标题2</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/chat/">留言</a><a class="nav-item" href="/friends/">朋友们</a><a class="nav-item" href="/about/">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">JavaScript Snippets</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%86%E7%BB%99%E5%AE%9A%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%AD%E6%AF%8F%E4%B8%AA%E5%8D%95%E8%AF%8D%E7%9A%84%E9%A6%96%E5%AD%97%E6%AF%8D%E8%BD%AC%E4%B8%BA%E5%A4%A7%E5%86%99"><span class="toc-text">将给定字符串中每个单词的首字母转为大写</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E7%BB%99%E5%AE%9A%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%AD%97%E8%8A%82%E9%95%BF%E5%BA%A6"><span class="toc-text">计算给定字符串的字节长度</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%86%E6%95%B0%E7%BB%84%E5%85%83%E7%B4%A0%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%8C%87%E5%AE%9A%E7%9A%84-HTML-%E5%85%83%E7%B4%A0%EF%BC%8C%E4%B8%BB%E8%A6%81%E7%94%A8%E4%BA%8E%E5%B0%86%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2%E4%B8%BA%E7%95%8C%E9%9D%A2-HTML-%E6%A0%BC%E5%BC%8F"><span class="toc-text">将数组元素转换为指定的 HTML 元素，主要用于将数据转换为界面 HTML 格式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%A4%9A%E4%B8%AA%E6%95%B0%E5%80%BC%E6%B1%82%E5%B9%B3%E5%9D%87%E5%80%BC"><span class="toc-text">多个数值求平均值</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97-map-%E6%95%B0%E7%BB%84%E6%8C%89%E7%85%A7%E6%8C%87%E5%AE%9A-key-%E7%9A%84%E5%B9%B3%E5%9D%87%E5%80%BC%EF%BC%8C%E4%B9%9F%E5%8F%AF%E4%BB%A5%E7%BB%99%E5%AE%9A%E4%B8%80%E4%B8%AA%E8%BF%AD%E4%BB%A3%E5%87%BD%E6%95%B0"><span class="toc-text">计算 map 数组按照指定 key 的平均值，也可以给定一个迭代函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%81%E8%A3%85-localStorage"><span class="toc-text">封装 localStorage</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%AE%A1%E7%AE%97%E6%95%B0%E7%BB%84%E4%B8%AD%E6%9F%90%E4%B8%AA%E5%80%BC%E7%9A%84%E9%87%8D%E5%A4%8D%E6%AC%A1%E6%95%B0"><span class="toc-text">计算数组中某个值的重复次数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A3%80%E6%9F%A5%E5%80%BC%E6%98%AF%E5%90%A6%E5%B1%9E%E4%BA%8E%E6%9F%90%E4%B8%AA%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="toc-text">检查值是否属于某个数据类型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%81%8D%E5%8E%86%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%AF%8F%E4%B8%AA%E5%B1%9E%E6%80%A7%EF%BC%8C%E5%B9%B6%E5%88%86%E5%88%AB%E4%B8%BA%E6%AF%8F%E4%B8%AA%E5%B1%9E%E6%80%A7%E8%BF%AD%E4%BB%A3%E4%B8%80%E4%B8%AA%E5%9B%9E%E8%B0%83"><span class="toc-text">遍历对象的每个属性，并分别为每个属性迭代一个回调</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E9%80%9A%E8%BF%87%E9%94%AE%E5%80%BC%E6%9F%A5%E6%89%BE%E5%AF%B9%E8%B1%A1%EF%BC%8C%E8%BF%94%E5%9B%9E%E6%BB%A1%E8%B6%B3%E7%BB%99%E5%AE%9A%E5%87%BD%E6%95%B0%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA-key"><span class="toc-text">通过键值查找对象，返回满足给定函数的第一个 key</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%B0%86%E4%B8%80%E7%BB%84%E6%95%B0%E6%8D%AE%E6%8C%89%E7%85%A7%E6%8C%87%E5%AE%9A%E7%9A%84-key-%E7%9A%84%E8%BF%9B%E8%A1%8C%E5%88%86%E7%BB%84%EF%BC%8C%E5%B9%B6%E6%8C%89%E7%85%A7%E5%88%86%E7%BB%84%E8%BF%9B%E8%A1%8C%E5%BD%92%E7%B1%BB"><span class="toc-text">将一组数据按照指定的 key 的进行分组，并按照分组进行归类</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a></div><div id="post-meta">发布于&nbsp;<time datetime="2021-07-23T00:00:00.000Z">2021-07-23</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>JavaScript Snippets</span></h1>
+<p>:::info<br>收集的一些常用的 JavaScript 代码片段<br>:::</p>
+<h2 id="将给定字符串中每个单词的首字母转为大写"><a href="#将给定字符串中每个单词的首字母转为大写" class="headerlink" title="将给定字符串中每个单词的首字母转为大写"></a>将给定字符串中每个单词的首字母转为大写</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">capitalizeWord</span> = (<span class="params">string</span>) =&gt;</span><br><span class="line">  string.<span class="title function_">replace</span>(<span class="regexp">/\b[a-z]/g</span>, <span class="function">(<span class="params">char</span>) =&gt;</span> char.<span class="title function_">toUpperCase</span>());</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">capitalizeWord</span>(<span class="string">&quot;hello world in javascript&quot;</span>)); <span class="comment">// Hello World In Javascript</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="计算给定字符串的字节长度"><a href="#计算给定字符串的字节长度" class="headerlink" title="计算给定字符串的字节长度"></a>计算给定字符串的字节长度</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">byteSize</span> = (<span class="params">string</span>) =&gt; <span class="keyword">new</span> <span class="title class_">Blob</span>([string]).<span class="property">size</span>;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">byteSize</span>(<span class="string">&quot;vivy&quot;</span>)); <span class="comment">// 4</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">byteSize</span>(<span class="string">&quot;潮鸣&quot;</span>)); <span class="comment">// 6</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="将数组元素转换为指定的-HTML-元素，主要用于将数据转换为界面-HTML-格式"><a href="#将数组元素转换为指定的-HTML-元素，主要用于将数据转换为界面-HTML-格式" class="headerlink" title="将数组元素转换为指定的 HTML 元素，主要用于将数据转换为界面 HTML 格式"></a>将数组元素转换为指定的 HTML 元素，主要用于将数据转换为界面 HTML 格式</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">arrayToHtmlList</span> = (<span class="params">array, tag = <span class="string">&quot;li&quot;</span></span>) =&gt;</span><br><span class="line">  array.<span class="title function_">map</span>(<span class="function">(<span class="params">item</span>) =&gt;</span> <span class="string">`&lt;<span class="subst">$&#123;tag&#125;</span>&gt;<span class="subst">$&#123;item&#125;</span>&lt;/<span class="subst">$&#123;tag&#125;</span>&gt;`</span>).<span class="title function_">join</span>(<span class="string">&quot;&quot;</span>);</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">arrayToHtmlList</span>([<span class="string">&quot;第一条&quot;</span>, <span class="string">&quot;第二条&quot;</span>])); <span class="comment">// &lt;li&gt;第一条&lt;/li&gt;&lt;li&gt;第二条&lt;/li&gt;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">arrayToHtmlList</span>([<span class="string">&quot;第一条&quot;</span>, <span class="string">&quot;第二条&quot;</span>], <span class="string">&quot;p&quot;</span>)); <span class="comment">// &lt;p&gt;第一条&lt;/p&gt;&lt;p&gt;第二条&lt;/p&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="多个数值求平均值"><a href="#多个数值求平均值" class="headerlink" title="多个数值求平均值"></a>多个数值求平均值</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">average</span> = (<span class="params">...nums</span>) =&gt;</span><br><span class="line">  nums.<span class="title function_">reduce</span>(<span class="function">(<span class="params">acc, val</span>) =&gt;</span> acc + val, <span class="number">0</span>) / nums.<span class="property">length</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> ages = [<span class="number">23</span>, <span class="number">56</span>, <span class="number">15</span>, <span class="number">28</span>];</span><br><span class="line"><span class="comment">// 此代码也展示了函数如何传递不定参数（使用 ES6 扩展运算符）</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">average</span>(...ages)); <span class="comment">// 30.5</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">average</span>(<span class="number">23</span>, <span class="number">56</span>, <span class="number">15</span>, <span class="number">28</span>)); <span class="comment">// 30.5</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="计算-map-数组按照指定-key-的平均值，也可以给定一个迭代函数"><a href="#计算-map-数组按照指定-key-的平均值，也可以给定一个迭代函数" class="headerlink" title="计算 map 数组按照指定 key 的平均值，也可以给定一个迭代函数"></a>计算 map 数组按照指定 key 的平均值，也可以给定一个迭代函数</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">averageBy</span> = (<span class="params">array, fn</span>) =&gt;</span><br><span class="line">  array.<span class="title function_">map</span>(<span class="keyword">typeof</span> fn === <span class="string">&quot;function&quot;</span> ? fn : <span class="function">(<span class="params">val</span>) =&gt;</span> val[fn]).<span class="title function_">reduce</span>(<span class="function">(<span class="params">acc, val</span>) =&gt;</span> acc + val, <span class="number">0</span>) / array.<span class="property">length</span>;</span><br><span class="line"><span class="keyword">const</span> users = [</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&quot;saber&quot;</span>, <span class="attr">size</span>: <span class="number">23</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&quot;vivy&quot;</span>, <span class="attr">size</span>: <span class="number">56</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&quot;tico&quot;</span>, <span class="attr">size</span>: <span class="number">15</span> &#125;,</span><br><span class="line">  &#123; <span class="attr">name</span>: <span class="string">&quot;k423&quot;</span>, <span class="attr">size</span>: <span class="number">28</span> &#125;,</span><br><span class="line">];</span><br><span class="line"><span class="keyword">const</span> average1 = <span class="title function_">averageBy</span>(users, <span class="function">(<span class="params">item</span>) =&gt;</span> item.<span class="property">size</span>);</span><br><span class="line"><span class="keyword">const</span> average2 = <span class="title function_">averageBy</span>(users, <span class="string">&quot;size&quot;</span>);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(average1); <span class="comment">// 30.5</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(average2); <span class="comment">// 30.5</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="封装-localStorage"><a href="#封装-localStorage" class="headerlink" title="封装 localStorage"></a>封装 localStorage</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">useStorage</span> = (<span class="params">storageKey = <span class="string">&quot;authorization&quot;</span></span>) =&gt; &#123;</span><br><span class="line">  <span class="keyword">const</span> localKey = <span class="string">`devpoint.local.<span class="subst">$&#123;storageKey&#125;</span>`</span>;</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">save</span> = (<span class="params">data</span>) =&gt; &#123;</span><br><span class="line">    <span class="variable language_">window</span>.<span class="property">localStorage</span>.<span class="title function_">setItem</span>(localKey, <span class="title class_">JSON</span>.<span class="title function_">stringify</span>(data));</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">get</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> localData = <span class="variable language_">window</span>.<span class="property">localStorage</span>.<span class="title function_">getItem</span>(localKey);</span><br><span class="line">    <span class="keyword">if</span> (localData &amp;&amp; localData !== <span class="string">&quot;&quot;</span>) &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="title class_">JSON</span>.<span class="title function_">parse</span>(localData);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">const</span> <span class="title function_">clear</span> = (<span class="params"></span>) =&gt; &#123;</span><br><span class="line">    <span class="variable language_">window</span>.<span class="property">localStorage</span>.<span class="title function_">setItem</span>(localKey, <span class="string">&quot;&quot;</span>);</span><br><span class="line">  &#125;;</span><br><span class="line">  <span class="keyword">return</span> &#123; save, get, clear &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"><span class="keyword">const</span> storageAuth = <span class="title function_">useStorage</span>();</span><br><span class="line"><span class="keyword">const</span> loginInfo = &#123;</span><br><span class="line">  <span class="attr">username</span>: <span class="string">&quot;vivy&quot;</span>,</span><br><span class="line">  <span class="attr">age</span>: <span class="number">18</span>,</span><br><span class="line">&#125;;</span><br><span class="line">storageAuth.<span class="title function_">save</span>(loginInfo);</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(storageAuth.<span class="title function_">get</span>());</span><br></pre></td></tr></table></figure>
+
+<h2 id="计算数组中某个值的重复次数"><a href="#计算数组中某个值的重复次数" class="headerlink" title="计算数组中某个值的重复次数"></a>计算数组中某个值的重复次数</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">countOccurrences</span> = (<span class="params">array, value</span>) =&gt;</span><br><span class="line">  array.<span class="title function_">reduce</span>(</span><br><span class="line">    <span class="function">(<span class="params">accumulator, current</span>) =&gt;</span></span><br><span class="line">      current === value ? accumulator + <span class="number">1</span> : accumulator,</span><br><span class="line">    <span class="number">0</span></span><br><span class="line">  );</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">countOccurrences</span>([...<span class="string">&quot;vivy&quot;</span>], <span class="string">&quot;v&quot;</span>)); <span class="comment">// 2</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">countOccurrences</span>([<span class="number">1</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">3</span>, <span class="number">3</span>, <span class="number">2</span>, <span class="number">3</span>], <span class="number">3</span>)); <span class="comment">// 5</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="检查值是否属于某个数据类型"><a href="#检查值是否属于某个数据类型" class="headerlink" title="检查值是否属于某个数据类型"></a>检查值是否属于某个数据类型</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">isCheck</span> = (<span class="params">type, val</span>) =&gt;</span><br><span class="line">  ![<span class="literal">undefined</span>, <span class="literal">null</span>].<span class="title function_">includes</span>(val) &amp;&amp; val.<span class="property">constructor</span> === type;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">isCheck</span>(<span class="title class_">Array</span>, [<span class="string">&quot;a&quot;</span>])); <span class="comment">// true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">isCheck</span>(<span class="title class_">Object</span>, &#123;&#125;)); <span class="comment">// true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">isCheck</span>(<span class="title class_">ArrayBuffer</span>, <span class="keyword">new</span> <span class="title class_">ArrayBuffer</span>())); <span class="comment">// true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">isCheck</span>(<span class="title class_">Boolean</span>, <span class="keyword">new</span> <span class="title class_">Boolean</span>(<span class="literal">true</span>))); <span class="comment">// true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">isCheck</span>(<span class="title class_">RegExp</span>, <span class="regexp">/./g</span>)); <span class="comment">// true</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">isCheck</span>(<span class="title class_">Number</span>, <span class="number">0</span>)); <span class="comment">// true</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="遍历对象的每个属性，并分别为每个属性迭代一个回调"><a href="#遍历对象的每个属性，并分别为每个属性迭代一个回调" class="headerlink" title="遍历对象的每个属性，并分别为每个属性迭代一个回调"></a>遍历对象的每个属性，并分别为每个属性迭代一个回调</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">forObject</span> = (<span class="params">obj, callback</span>) =&gt;</span><br><span class="line">  <span class="title class_">Object</span>.<span class="title function_">keys</span>(obj).<span class="title function_">forEach</span>(<span class="function">(<span class="params">key</span>) =&gt;</span> <span class="title function_">callback</span>(obj[key], key, obj));</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> testObj = &#123;</span><br><span class="line">  <span class="attr">word</span>: <span class="string">&quot;信じる心があなたの魔法〜&quot;</span>,</span><br><span class="line">  <span class="attr">author</span>: <span class="string">&quot;篝敦子&quot;</span>,</span><br><span class="line">&#125;;</span><br><span class="line"><span class="title function_">forObject</span>(testObj, <span class="function">(<span class="params">val, key</span>) =&gt;</span> &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">`<span class="subst">$&#123;key&#125;</span>:<span class="subst">$&#123;val&#125;</span>`</span>);</span><br><span class="line">&#125;);</span><br><span class="line"><span class="comment">// word:信じる心があなたの魔法〜</span></span><br><span class="line"><span class="comment">// author:篝敦子</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="通过键值查找对象，返回满足给定函数的第一个-key"><a href="#通过键值查找对象，返回满足给定函数的第一个-key" class="headerlink" title="通过键值查找对象，返回满足给定函数的第一个 key"></a>通过键值查找对象，返回满足给定函数的第一个 key</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">findKey</span> = (<span class="params">obj, fn</span>) =&gt;</span><br><span class="line">  <span class="title class_">Object</span>.<span class="title function_">keys</span>(obj).<span class="title function_">find</span>(<span class="function">(<span class="params">key</span>) =&gt;</span> <span class="title function_">fn</span>(obj[key], key, obj));</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> testObj = &#123;</span><br><span class="line">  <span class="attr">vivy</span>: &#123; <span class="attr">age</span>: <span class="number">17</span> &#125;,</span><br><span class="line">  <span class="attr">k423</span>: &#123; <span class="attr">age</span>: <span class="number">18</span> &#125;,</span><br><span class="line">  <span class="attr">saber</span>: &#123; <span class="attr">age</span>: <span class="number">19</span> &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">findKey</span>(testObj, <span class="function">(<span class="params">item</span>) =&gt;</span> item.<span class="property">age</span> &gt; <span class="number">18</span>)); <span class="comment">// saber</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="将一组数据按照指定的-key-的进行分组，并按照分组进行归类"><a href="#将一组数据按照指定的-key-的进行分组，并按照分组进行归类" class="headerlink" title="将一组数据按照指定的 key 的进行分组，并按照分组进行归类"></a>将一组数据按照指定的 key 的进行分组，并按照分组进行归类</h2><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> <span class="title function_">groupBy</span> = (<span class="params">obj, key</span>) =&gt; &#123;</span><br><span class="line">    <span class="keyword">const</span> values =</span><br><span class="line">        obj <span class="keyword">instanceof</span> <span class="title class_">Map</span> || obj <span class="keyword">instanceof</span> <span class="title class_">Set</span></span><br><span class="line">            ? <span class="title class_">Array</span>.<span class="title function_">from</span>(obj.<span class="title function_">values</span>())</span><br><span class="line">            : <span class="title class_">Object</span>.<span class="title function_">values</span>(obj);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> values.<span class="title function_">reduce</span>(<span class="function">(<span class="params">acc, value</span>) =&gt;</span> &#123;</span><br><span class="line">        <span class="keyword">const</span> groupKey = value[key];</span><br><span class="line">        <span class="keyword">if</span> (!<span class="title class_">Array</span>.<span class="title function_">isArray</span>(acc[groupKey])) &#123;</span><br><span class="line">            acc[groupKey] = [value];</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            acc[groupKey].<span class="title function_">push</span>(value);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> acc;</span><br><span class="line">    &#125;, &#123;&#125;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> arrayRoles = [</span><br><span class="line">    &#123; <span class="attr">title</span>: <span class="string">&quot;Mieruko-chan&quot;</span>, <span class="attr">category</span>: <span class="string">&quot;xxx&quot;</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">title</span>: <span class="string">&quot;Vladilena Mirizé&quot;</span>, <span class="attr">category</span>: <span class="string">&quot;xxx&quot;</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">title</span>: <span class="string">&quot;Nakano Azusa&quot;</span>, <span class="attr">category</span>: <span class="string">&quot;xxx&quot;</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">title</span>: <span class="string">&quot;Shirahane Suou&quot;</span>, <span class="attr">category</span>: <span class="string">&quot;yyy&quot;</span> &#125;,</span><br><span class="line">    &#123; <span class="attr">title</span>: <span class="string">&quot;Mio Akiyama&quot;</span>, <span class="attr">category</span>: <span class="string">&quot;yyy&quot;</span> &#125;,</span><br><span class="line">];</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="title function_">groupBy</span>(arrayRoles, <span class="string">&quot;category&quot;</span>));</span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">&#123;</span></span><br><span class="line"><span class="comment">  &#x27;xxx&#x27;: [</span></span><br><span class="line"><span class="comment">    &#123; title: &#x27;Mieruko-chan&#x27;, category: &#x27;xxx&#x27; &#125;,</span></span><br><span class="line"><span class="comment">    &#123; title: &#x27;Vladilena Mirizé&#x27;, category: &#x27;xxx&#x27; &#125;,</span></span><br><span class="line"><span class="comment">    &#123; title: &#x27;Nakano Azusa&#x27;, category: &#x27;xxx&#x27; &#125;</span></span><br><span class="line"><span class="comment">  ],</span></span><br><span class="line"><span class="comment">  &#x27;yyy&#x27;: [</span></span><br><span class="line"><span class="comment">    &#123; title: &#x27;Shirahane Suou&#x27;, category: &#x27;yyy&#x27; &#125;,</span></span><br><span class="line"><span class="comment">    &#123; title: &#x27;Mio Akiyama&#x27;, category: &#x27;yyy&#x27; &#125;</span></span><br><span class="line"><span class="comment">  ]</span></span><br><span class="line"><span class="comment">&#125;</span></span><br><span class="line"><span class="comment">*/</span></span><br></pre></td></tr></table></figure>
+
+
+<div class="article-footer reveal fs14"><section id="references"><div class="header"><span>参考资料</span></div><div class="body"><ul><li class="post-title"><a href="https://juejin.cn/column/6981851417929580557" target="_blank" rel="external nofollow noopener noreferrer">碎片时间学习Javascript代码</a></li></ul></div></section><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2021/08/17/promise-async-await/">浅析 Promise、Async/Await</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2021/06/21/oauth2.0/">第三方应用授权：OAuth 2.0</a></div></section></div>
+
+
+
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">@anonymity</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

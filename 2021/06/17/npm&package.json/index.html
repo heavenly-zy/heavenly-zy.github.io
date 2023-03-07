@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>npm & package.json - ClariS</title>
+
+  
+    <meta name="description" content="npm 是什么npm 是 Node.js 的包管理工具，Node.js package manger，通过 npm Node.js 可以方便地使用第三方开发的开源模块，同时也可以把自己的模块发布到 npm 供其它开发者使用。 npm 主要由三部分组成：  npm website：https:&#x2F;&#x2F;npmjs.com，开发者查找发现 package 的站点 CLI（命令行）：开发者可以使用命令行工具和">
+<meta property="og:type" content="article">
+<meta property="og:title" content="npm &amp; package.json">
+<meta property="og:url" content="http://example.com/2021/06/17/npm&package.json/index.html">
+<meta property="og:site_name" content="ClariS">
+<meta property="og:description" content="npm 是什么npm 是 Node.js 的包管理工具，Node.js package manger，通过 npm Node.js 可以方便地使用第三方开发的开源模块，同时也可以把自己的模块发布到 npm 供其它开发者使用。 npm 主要由三部分组成：  npm website：https:&#x2F;&#x2F;npmjs.com，开发者查找发现 package 的站点 CLI（命令行）：开发者可以使用命令行工具和">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-17T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-03-07T03:15:13.675Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="npm">
+<meta property="article:tag" content="package.json">
+<meta name="twitter:card" content="summary">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css" />
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/assets/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">ClariS</div><div class="sub normal cap">标题1</div><div class="sub hover cap" style="opacity:0"> 标题2</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/chat/">留言</a><a class="nav-item" href="/friends/">朋友们</a><a class="nav-item" href="/about/">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">npm & package.json</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#yarn"><span class="toc-text">yarn</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#npx"><span class="toc-text">npx</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#name"><span class="toc-text">name</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#version"><span class="toc-text">version</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%88%E8%A1%8C%E7%89%88%E6%9C%AC"><span class="toc-text">先行版本</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E6%8D%B7%E5%91%BD%E4%BB%A4"><span class="toc-text">快捷命令</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#tag"><span class="toc-text">tag</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#dependencies-amp-devDependencies"><span class="toc-text">dependencies &amp; devDependencies</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#peerDependencies"><span class="toc-text">peerDependencies</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#repository"><span class="toc-text">repository</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#main-%E5%AD%97%E6%AE%B5"><span class="toc-text">main 字段</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a></div><div id="post-meta">发布于&nbsp;<time datetime="2021-06-17T00:00:00.000Z">2021-06-17</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>npm & package.json</span></h1>
+<h1 id="npm-是什么"><a href="#npm-是什么" class="headerlink" title="npm 是什么"></a>npm 是什么</h1><p>npm 是 Node.js 的包管理工具，Node.js package manger，通过 npm Node.js 可以方便地使用第三方开发的开源模块，同时也可以把自己的模块发布到 npm 供其它开发者使用。</p>
+<p>npm 主要由三部分组成：</p>
+<ol>
+<li>npm website：<a target="_blank" rel="noopener" href="https://npmjs.com,开发者查找发现/">https://npmjs.com，开发者查找发现</a> package 的站点</li>
+<li>CLI（命令行）：开发者可以使用命令行工具和 npm 进行交互，对 package 进行安装、更新、删除等操作</li>
+<li>registry（注册表）：package 及其元信息存储的数据库</li>
+</ol>
+<p>:::info<br>注册表是一个巨大的数据库，保存了每个包（package）的信息。<br>例如我们要查询 vue 包的信息，可以访问<a target="_blank" rel="noopener" href="https://registry.npmjs.org/vue">https://registry.npmjs.org/vue</a>，就会看到 vue 模块所有版本的信息。<br>模块名后面，还可以跟上版本号或者标签，用来查询某个具体版本的信息，例如：<a target="_blank" rel="noopener" href="https://registry.npmjs.org/vue/3.0.0">https://registry.npmjs.org/vue/3.0.0</a> 查看 vue 3.0.0 版本的信息<br>具体用法就是，<code>https://registry.npmjs.org/模块名/版本号</code><br>:::</p>
+<h2 id="yarn"><a href="#yarn" class="headerlink" title="yarn"></a>yarn</h2><p><a target="_blank" rel="noopener" href="https://www.npmjs.com/package/yarn">yarn</a> 是 Facebook 2017 年推出的和 npm 功能类似的包管理工具，主要解决当时 npm 的几个核心问题</p>
+<ol>
+<li>安装包不够快速与稳定</li>
+<li>存在安全隐患</li>
+</ol>
+<p>同时 yarn 的 cli 工具提供了更简单的命令，当然面对 yarn 带来的压力，npm 在 5.0 后提供了类似的改进，两者现在差距不再巨大，开发者可以根据个人习惯和项目规范自由选择（我个人更喜欢使用 yarn）</p>
+<h2 id="npx"><a href="#npx" class="headerlink" title="npx"></a>npx</h2><p>npm 从5.2版本开始，增加了 npx 命令，npx 想要解决的主要问题，就是调用项目内部安装的模块。原理很简单，就是运行的时候，会到<code>node_modules/.bin</code>路径和环境变量<code>$PATH</code>里面，检查命令是否存在；如果存在，则执行；不存在，则进行临时安装，然后执行，执行完毕后将包删除。</p>
+<p>对 npx 的详细介绍见<a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2019/02/npx.html">npx使用教程</a></p>
+<h1 id="package-json"><a href="#package-json" class="headerlink" title="package.json"></a>package.json</h1><p>npm 通过 Node.js 模块根目录的 package.json 文件获取模块元数据和依赖关系等，例如<a target="_blank" rel="noopener" href="https://github.com/facebook/react/blob/master/packages/react/package.json">react 的 package.json</a> 包含如下信息<br>:::info<br>可以通过<code>npm init -y</code>或者<code>yarn init -y</code>生成一份默认的 package.json 配置<br>:::</p>
+<figure class="highlight json"><figcaption><span>react 的 package.json</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;react&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;description&quot;</span><span class="punctuation">:</span> <span class="string">&quot;React is a JavaScript library for building user interfaces.&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;keywords&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;react&quot;</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span> <span class="string">&quot;17.0.3&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;homepage&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://reactjs.org/&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;bugs&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://github.com/facebook/react/issues&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;license&quot;</span><span class="punctuation">:</span> <span class="string">&quot;MIT&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;files&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;LICENSE&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;README.md&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;build-info.json&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;index.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;cjs/&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;umd/&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;jsx-runtime.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;jsx-dev-runtime.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="string">&quot;unstable-shared-subset.js&quot;</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;main&quot;</span><span class="punctuation">:</span> <span class="string">&quot;index.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;exports&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;.&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;react-server&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./unstable-shared-subset.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;default&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./index.js&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;./index&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;react-server&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./unstable-shared-subset.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;default&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./index.js&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;./build-info.json&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./build-info.json&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;./jsx-runtime&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./jsx-runtime.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;./jsx-dev-runtime&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./jsx-dev-runtime.js&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;./&quot;</span><span class="punctuation">:</span> <span class="string">&quot;./&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;repository&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;git&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://github.com/facebook/react.git&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;directory&quot;</span><span class="punctuation">:</span> <span class="string">&quot;packages/react&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;engines&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;node&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&gt;=0.10.0&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;loose-envify&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^1.1.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;object-assign&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^4.1.1&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;browserify&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;transform&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">      <span class="string">&quot;loose-envify&quot;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="name"><a href="#name" class="headerlink" title="name"></a>name</h2><p>name 是模块的唯一标识，安装、使用模块都需要使用模块的 name，可以使用字母（只能使用小写字母）、数字、<code>_</code>、<code>-</code>和<code>.</code>，例如安装和使用 vue 需要用到如下命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add vue</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;inject, <span class="title class_">Ref</span>&#125; <span class="keyword">from</span> <span class="string">&#x27;vue&#x27;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以通过 scope 组织具有相关性的模块，模块名义<code>@</code>开头的包就是一个 scoped package，scope 就是<code>@</code>和<code>/</code>之间的内容</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">@scope/project-name</span><br></pre></td></tr></table></figure>
+<p>例如<a target="_blank" rel="noopener" href="https://github.com/antvis/G2Plot/blob/master/package.json">@antv&#x2F;g2plot</a></p>
+<h2 id="version"><a href="#version" class="headerlink" title="version"></a>version</h2><p>版本号遵从<a target="_blank" rel="noopener" href="https://semver.org/lang/zh-CN/">语义化版本规范</a>，使用<code>x.y.z</code>形式，对应<code>主版本.次版本.修订版本</code> ，版本号递增规则如下：</p>
+<ol>
+<li>主版本（major）：当你做了不兼容的 API 修改，一般改动很大，不兼容低版本</li>
+<li>次版本（minor）：当你做了向下兼容的功能性新增，兼容同一个大版本的 API 和用法</li>
+<li>修订版本（patch）：当你做了向下兼容的问题修正，一般用来修复 bug</li>
+</ol>
+<h3 id="先行版本"><a href="#先行版本" class="headerlink" title="先行版本"></a>先行版本</h3><p><code>x.y.z</code>格式是模块正式版本，重要模块为了保证稳定，会在放出正式版本之前提供先行版本</p>
+<ul>
+<li>alpha: 内部版本</li>
+<li>beta: 公测版本</li>
+<li>rc: Release candidate，正式版本的候选版本</li>
+<li>stable: 稳定版</li>
+<li>csp</li>
+</ul>
+<p>例：npm 上 vue <a target="_blank" rel="noopener" href="https://www.npmjs.com/package/vue">部分版本记录</a></p>
+<blockquote>
+<p>这种特殊版本除非开发者&#x3D;&#x3D;精确声明使用&#x3D;&#x3D;，例如<code>npm install vue@3.0.0-rc.13</code>，否则<code>npm install</code>不会自动安装对应版本内容</p>
+</blockquote>
+<h3 id="快捷命令"><a href="#快捷命令" class="headerlink" title="快捷命令"></a>快捷命令</h3><p>npm 提供了快捷升级命令</p>
+<ul>
+<li>升级主版本号：<code>npm version major</code></li>
+<li>升级次版本号：<code>npm version minor</code></li>
+<li>升级修订版本号：<code>npm version patch</code></li>
+<li>设置版本号为指定的版本号：<code>npm version 版本号</code></li>
+<li>升级先行版本号：<code>npm version prerelease</code></li>
+<li>升级先行版本号并指定先行版本的名字：<code>npm version prerelease --preid=&lt;prerelease-id&gt;</code></li>
+</ul>
+<p>示例：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_"># </span><span class="language-bash">假定现在的版本号是1.1.1</span></span><br><span class="line">npm version major  # 2.0.0</span><br><span class="line">npm version minor  # 1.2.0</span><br><span class="line">npm version patch  # 1.1.2</span><br><span class="line">npm version prerelease # 1.1.2-0</span><br><span class="line">npm version prerelease --preid=alpha # 1.1.2-alpha.0</span><br><span class="line">npm version 4.1.2  # 4.1.2</span><br></pre></td></tr></table></figure>
+
+<p>:::info<br>执行<code>npm version</code>修改完版本号之后，还会默认执行 git add -&gt; git commit -&gt; git tag 操作，commit 的信息和为 tag 均为版本号，且该步骤应在<code>npm publish</code>之前进行。<br>:::</p>
+<h2 id="tag"><a href="#tag" class="headerlink" title="tag"></a>tag</h2><p>npm 中的 tag 类似于 git 中的 branch ，发布者可以在指定的 tag 上进行发版，使用者可以选择指定 tag 来安装，默认的 tag 是<code>latest</code>。这对于我们日常开发非常有用，很多时候我们想要发布版本来进行验证功能，但是又不想影响正在使用的人，我们就可以利用 tag 和先行版本来进行发包。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm publish --tag alpha  # 发版到名为 alpha 的 tag 上</span><br><span class="line">npm i &lt;package&gt;@&lt;tag&gt;    # 从指定 tag 上安装包</span><br></pre></td></tr></table></figure>
+
+<h2 id="dependencies-amp-devDependencies"><a href="#dependencies-amp-devDependencies" class="headerlink" title="dependencies &amp; devDependencies"></a>dependencies &amp; devDependencies</h2><p>dependencies 和 devDependencies 字段用来表示模块的依赖和开发环境依赖，模块依赖的版本号有些几种不同写法，来保证安装的时候使用对应的版本</p>
+<ol>
+<li><code>x.y.z</code> 使用精确版本号</li>
+<li><code>*</code> 任意版本，第一次安装会使用模块最新版本 </li>
+<li><code>^x.y.z</code> x 位锁死，y、z 位使用最新版本</li>
+<li><code>3.x</code>和<code>^3.0.0</code>含义相同，x 位使用指定版本，y、z 位使用最新</li>
+<li><code>~x.y.z</code> x、y 锁定，z 位使用最新版本</li>
+</ol>
+<p>npm 提供了快捷命令，可以在安装的时候就自动把对应内容写到 package.json 中</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install &lt;package_name&gt; --save # 安装模块并写入 dependencies</span><br><span class="line">npm install &lt;package_name&gt; --save-dev # 安装模块并写入 devDependencies</span><br></pre></td></tr></table></figure>
+
+<h2 id="peerDependencies"><a href="#peerDependencies" class="headerlink" title="peerDependencies"></a>peerDependencies</h2><p>有时候模块需要与宿主模块共享依赖，也就是有可能会用到某个模块，但自己不安装，希望宿主环境安装的时候使用 peerDependencies 声明，比如 <a target="_blank" rel="noopener" href="https://github.com/facebook/react/blob/master/packages/react-dom/package.json">react-dom 的 package.json</a> 的使用</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;loose-envify&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^1.1.0&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;object-assign&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^4.1.1&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;scheduler&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^0.20.1&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"><span class="attr">&quot;peerDependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;react&quot;</span><span class="punctuation">:</span> <span class="string">&quot;17.0.3&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="repository"><a href="#repository" class="headerlink" title="repository"></a>repository</h2><p>repository 用来指定模块源代码信息</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">&quot;repository&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;git&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;url&quot;</span><span class="punctuation">:</span> <span class="string">&quot;https://github.com/facebook/react.git&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;directory&quot;</span><span class="punctuation">:</span> <span class="string">&quot;packages/react&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="main-字段"><a href="#main-字段" class="headerlink" title="main 字段"></a>main 字段</h2><p>main 字段用来标识模块的默认入口文件，比如 react <code>main: &quot;index.js&quot;</code> ，下面两句写法含义相同</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> react = <span class="built_in">require</span>(<span class="string">&#x27;react&#x27;</span>);</span><br><span class="line"><span class="keyword">const</span> react = <span class="built_in">require</span>(<span class="string">&#x27;react/index.js&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h1 id="发布-package"><a href="#发布-package" class="headerlink" title="发布 package"></a>发布 package</h1><ol>
+<li>在 <a target="_blank" rel="noopener" href="https://npmjs.com/">npmjs.com</a> 上注册账号</li>
+<li>在++命令行++{.dot}使用<code>npm login</code>登录</li>
+<li>使用<code>npm publish</code>进行发布</li>
+</ol>
+<p>:::warning<br>在进行<code>npm publish</code>操作前，请确认使用的是 npm 官方源，如果当前使用的是非官方源，可以使用<code>npm config set registry https://registry.npmjs.org</code>或者<code>nrm</code>切换至 npm 官方源<br>:::</p>
+
+
+<div class="article-footer reveal fs14"><section id="references"><div class="header"><span>参考资料</span></div><div class="body"><ul><li class="post-title"><a href="https://juejin.cn/post/6956025049254428680" target="_blank" rel="external nofollow noopener noreferrer">那些我们必须掌握的npm知识</a></li><li class="post-title"><a href="https://www.yuque.com/sunluyong/node/npm" target="_blank" rel="external nofollow noopener noreferrer">NPM & package.json</a></li></ul></div></section><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2021/06/21/oauth2.0/">第三方应用授权：OAuth 2.0</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2021/03/01/google-search-skills/">Google 搜索技巧</a></div></section></div>
+
+
+
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">@anonymity</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>

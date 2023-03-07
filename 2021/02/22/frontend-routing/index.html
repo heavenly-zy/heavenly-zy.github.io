@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>浅析前端路由 - ClariS</title>
+
+  
+    <meta name="description" content=":::info本文并非原创，而是参考了很多其他文章的内容，仅当作学习记录使用::: 什么是前端路由用最简单的话来说就是，&#x3D;&#x3D;页面间的跳转仅由前端来控制，而不需要向后端发起请求&#x3D;&#x3D;。前端路由反映的是URL和组件之间的映射关系。  如何实现前端路由vue-router 中有 3 种路由模式：hash、history、abstract（不常用），这里仅介绍下 ha">
+<meta property="og:type" content="article">
+<meta property="og:title" content="浅析前端路由">
+<meta property="og:url" content="http://example.com/2021/02/22/frontend-routing/index.html">
+<meta property="og:site_name" content="ClariS">
+<meta property="og:description" content=":::info本文并非原创，而是参考了很多其他文章的内容，仅当作学习记录使用::: 什么是前端路由用最简单的话来说就是，&#x3D;&#x3D;页面间的跳转仅由前端来控制，而不需要向后端发起请求&#x3D;&#x3D;。前端路由反映的是URL和组件之间的映射关系。  如何实现前端路由vue-router 中有 3 种路由模式：hash、history、abstract（不常用），这里仅介绍下 ha">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/assets/frontend-routing/route_01.png">
+<meta property="article:published_time" content="2021-02-22T17:12:30.000Z">
+<meta property="article:modified_time" content="2023-03-07T03:15:13.675Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="前端路由">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/assets/frontend-routing/route_01.png">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css" />
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/assets/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">ClariS</div><div class="sub normal cap">标题1</div><div class="sub hover cap" style="opacity:0"> 标题2</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/chat/">留言</a><a class="nav-item" href="/friends/">朋友们</a><a class="nav-item" href="/about/">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">浅析前端路由</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#hash-%E6%A8%A1%E5%BC%8F"><span class="toc-text">hash 模式</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#history-%E6%A8%A1%E5%BC%8F"><span class="toc-text">history 模式</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%AD%A6%E4%B9%A0/">学习</a></div><div id="post-meta">发布于&nbsp;<time datetime="2021-02-22T17:12:30.000Z">2021-02-22</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>浅析前端路由</span></h1>
+<p>:::info<br>本文并非原创，而是参考了很多其他文章的内容，仅当作学习记录使用<br>:::</p>
+<h1 id="什么是前端路由"><a href="#什么是前端路由" class="headerlink" title="什么是前端路由"></a>什么是前端路由</h1><p>用最简单的话来说就是，&#x3D;&#x3D;页面间的跳转仅由前端来控制，而不需要向后端发起请求&#x3D;&#x3D;。前端路由反映的是<code>URL</code>和<code>组件</code>之间的映射关系。</p>
+<p><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/assets/frontend-routing/route_01.png" alt="route_01" title="前端路由反映的是 URL 和组件之间的映射关系"></p>
+<h1 id="如何实现前端路由"><a href="#如何实现前端路由" class="headerlink" title="如何实现前端路由"></a>如何实现前端路由</h1><p>vue-router 中有 3 种路由模式：hash、history、abstract（不常用），这里仅介绍下 hash 模式和 history 模式的简单实现</p>
+<h2 id="hash-模式"><a href="#hash-模式" class="headerlink" title="hash 模式"></a>hash 模式</h2><p>早期的前端路由的实现就是基于 location.hash 来实现的。实现原理很简单，location.hash 的值就是 URL 中 # 后面的内容。比如下面这个网站，它的 location.hash 的值为 ‘#first’。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://www.example.com#first</span><br></pre></td></tr></table></figure>
+<p>hash 路由模式的实现主要基于下面几个特性：</p>
+<ul>
+<li>URL 中 hash 值只是客户端的一种状态，也就是说当向服务器端发出请求时，&#x3D;&#x3D;hash 部分并不会被发送&#x3D;&#x3D;；</li>
+<li>hash 值的任意改变，都会在浏览器的访问历史中增加一个记录。因此我们能通过&#x3D;&#x3D;浏览器的回退、前进按钮&#x3D;&#x3D;来控制 hash 的切换；</li>
+<li>通过&#x3D;&#x3D;设置 a 标签的 href 属性&#x3D;&#x3D;，当用户点击这个标签后，URL 的 hash 值会发生改变；或者直接&#x3D;&#x3D;对 loaction.hash 进行赋值&#x3D;&#x3D;，改变 URL 的 hash 值；</li>
+<li>通过浏览器原生的<code>hashchange</code>事件来++监听 hash 值的变化++{.dot .warning}，从而对页面进行跳转（渲染）。</li>
+</ul>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#/page1&quot;</span>&gt;</span>page1<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#/page2&quot;</span>&gt;</span>page2<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--渲染对应组件的地方--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;route-view&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// 第一次加载的时候，不会执行 hashchange 监听事件，默认执行一次</span></span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// DOMContentLoaded 为浏览器 DOM 加载完成时触发</span></span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;DOMContentLoaded&#x27;</span>, <span class="title class_">Load</span>)</span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;hashchange&#x27;</span>, <span class="title class_">HashChange</span>)</span></span><br><span class="line"><span class="language-javascript">  <span class="comment">// 展示页面组件的节点</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> routeView = <span class="literal">null</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">function</span> <span class="title function_">Load</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    routeView = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;route-view&#x27;</span>)</span></span><br><span class="line"><span class="language-javascript">    <span class="title class_">HashChange</span>()</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">function</span> <span class="title function_">HashChange</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// 每次触发 hashchange 事件，通过 location.hash 拿到当前浏览器地址的 hash 值</span></span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// 根据不同的路径展示不同的内容</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">switch</span>(location.<span class="property">hash</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">case</span> <span class="string">&#x27;#/page1&#x27;</span>:</span></span><br><span class="line"><span class="language-javascript">      routeView.<span class="property">innerHTML</span> = <span class="string">&#x27;page1&#x27;</span></span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">return</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">case</span> <span class="string">&#x27;#/page2&#x27;</span>:</span></span><br><span class="line"><span class="language-javascript">      routeView.<span class="property">innerHTML</span> = <span class="string">&#x27;page2&#x27;</span></span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">return</span></span></span><br><span class="line"><span class="language-javascript">    <span class="attr">default</span>:</span></span><br><span class="line"><span class="language-javascript">      routeView.<span class="property">innerHTML</span> = <span class="string">&#x27;page1&#x27;</span></span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">return</span></span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>:::info<br>这仅是最简易的实现，真实的 hash 模式，还要考虑到很多复杂的情况，具体情况可以去看 Vue Router 的源码。<br>:::</p>
+<h2 id="history-模式"><a href="#history-模式" class="headerlink" title="history 模式"></a>history 模式</h2><p>history 模式的实现基于 HTML5 提供的 History API，其中最主要的 API 为：<code>history.pushState()</code>和<code>history.repalceState()</code>。这两个 API 均可在不刷新页面的情况下，对浏览器的历史纪录进行操作。唯一不同的是，前者是新增一个历史记录，后者是直接替换当前的历史记录。</p>
+<p>history 路由模式的实现主要基于下面几个特性：</p>
+<ul>
+<li>通过 pushState 和 repalceState 这两个 API 来操作实现 URL 的变化（实际上是改变了浏览器的<code>location.pathname</code>属性值） ；</li>
+<li>通过浏览器原生的<code>popstate</code>事件来&#x3D;&#x3D;监听浏览器动作的变化&#x3D;&#x3D;，从而对页面进行跳转（渲染）；</li>
+<li>但<code>history.pushState()</code>或<code>history.replaceState()</code>只能改变 URL，并不会触发 popstate 事件，需要&#x3D;&#x3D;手动触发页面跳转（渲染）&#x3D;&#x3D;。</li>
+</ul>
+<p>:::info<br>需要注意的是调用<code>history.pushState()</code>或<code>history.replaceState()</code>不会触发<code>popstate</code>事件。只有在做出浏览器动作时，才会触发该事件，如用户点击浏览器的回退按钮（或者在 Javascript 代码中调用<code>history.back()</code>或者<code>history.forward()</code>方法）（摘自 MDN 对 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Window/popstate_event">popstate</a> 的解释）<br>:::</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;/page1&quot;</span>&gt;</span>page1<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">li</span>&gt;</span><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;/page2&quot;</span>&gt;</span>page2<span class="tag">&lt;/<span class="name">a</span>&gt;</span><span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">&quot;route-view&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">&quot;text/javascript&quot;</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;DOMContentLoaded&#x27;</span>, <span class="title class_">Load</span>)</span></span><br><span class="line"><span class="language-javascript">  <span class="variable language_">window</span>.<span class="title function_">addEventListener</span>(<span class="string">&#x27;popstate&#x27;</span>, <span class="title class_">PopChange</span>)</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">var</span> routeView = <span class="literal">null</span></span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">function</span> <span class="title function_">Load</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    routeView = <span class="variable language_">document</span>.<span class="title function_">getElementById</span>(<span class="string">&#x27;route-view&#x27;</span>)</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// 默认执行一次 popstate 的回调函数，匹配一次页面组件</span></span></span><br><span class="line"><span class="language-javascript">    <span class="title class_">PopChange</span>()</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// 获取所有带 href 属性的 a 标签节点</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">var</span> aList = <span class="variable language_">document</span>.<span class="title function_">querySelectorAll</span>(<span class="string">&#x27;a[href]&#x27;</span>)</span></span><br><span class="line"><span class="language-javascript">    <span class="comment">// 遍历 a 标签节点数组，阻止默认事件，添加点击事件回调函数</span></span></span><br><span class="line"><span class="language-javascript">    aList.<span class="title function_">forEach</span>(<span class="function"><span class="params">aNode</span> =&gt;</span> aNode.<span class="title function_">addEventListener</span>(<span class="string">&#x27;click&#x27;</span>, <span class="keyword">function</span>(<span class="params">e</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">      e.<span class="title function_">preventDefault</span>() <span class="comment">//阻止a标签的默认事件</span></span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">var</span> href = aNode.<span class="title function_">getAttribute</span>(<span class="string">&#x27;href&#x27;</span>)</span></span><br><span class="line"><span class="language-javascript">      <span class="comment">//  手动修改浏览器的地址栏</span></span></span><br><span class="line"><span class="language-javascript">      history.<span class="title function_">pushState</span>(<span class="literal">null</span>, <span class="string">&#x27;&#x27;</span>, href)</span></span><br><span class="line"><span class="language-javascript">      <span class="comment">// 通过 history.pushState 手动修改地址栏，</span></span></span><br><span class="line"><span class="language-javascript">      <span class="comment">// popstate 是监听不到地址栏的变化，所以此处需要手动执行回调函数 PopChange</span></span></span><br><span class="line"><span class="language-javascript">      <span class="title class_">PopChange</span>()</span></span><br><span class="line"><span class="language-javascript">    &#125;))</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript">  <span class="keyword">function</span> <span class="title function_">PopChange</span>(<span class="params"></span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;location&#x27;</span>, location)</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">switch</span>(location.<span class="property">pathname</span>) &#123;</span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">case</span> <span class="string">&#x27;/page1&#x27;</span>:</span></span><br><span class="line"><span class="language-javascript">      routeView.<span class="property">innerHTML</span> = <span class="string">&#x27;page1&#x27;</span></span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">return</span></span></span><br><span class="line"><span class="language-javascript">    <span class="keyword">case</span> <span class="string">&#x27;/page2&#x27;</span>:</span></span><br><span class="line"><span class="language-javascript">      routeView.<span class="property">innerHTML</span> = <span class="string">&#x27;page2&#x27;</span></span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">return</span></span></span><br><span class="line"><span class="language-javascript">    <span class="attr">default</span>:</span></span><br><span class="line"><span class="language-javascript">      routeView.<span class="property">innerHTML</span> = <span class="string">&#x27;page1&#x27;</span></span></span><br><span class="line"><span class="language-javascript">      <span class="keyword">return</span></span></span><br><span class="line"><span class="language-javascript">    &#125;</span></span><br><span class="line"><span class="language-javascript">  &#125;</span></span><br><span class="line"><span class="language-javascript"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以上代码的思路：通过遍历页面上的所有 a 标签，阻止 a 标签的默认事件的同时，加上点击事件的回调函数，在回调函数内获取 a 标签的 href 属性值，再通过 pushState 去改变浏览器的 location.pathname 属性值。然后手动执行 popstate 事件的回调函数，去匹配相应的路由。</p>
+<p>:::warning<br>这里注意，以上代码不能在浏览器直接打开静态文件（会报错），需要通过 web 服务，启动端口去浏览网址。<br>:::</p>
+<h1 id="单页面应用-v-s-多页面应用"><a href="#单页面应用-v-s-多页面应用" class="headerlink" title="单页面应用 v.s. 多页面应用"></a>单页面应用 v.s. 多页面应用</h1><p>对前端来说，路由概念的出现是伴随着<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8D%95%E9%A1%B5%E5%BA%94%E7%94%A8">SPA</a>出现的；在SPA出现之前，页面的跳转(导航)都是通过服务端来控制的，并且页面跳转存在一个明显白屏跳转过程；SPA出现后，用户体验好、快，内容的改变不需要重新加载整个页面，避免了不必要的跳转和重复渲染，就不再让服务端控制页面跳转了，于是前端路由出现了，前端可以自由控制组件的渲染，来模拟页面跳转。</p>
+<p>单页面应用和多页面应用的对比如下：</p>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>单页面应用（SinglePage Web Application，SPA）</th>
+<th>多页面应用（MultiPage Application，MPA）</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>组成</td>
+<td>一个外壳页面和多个页面片段组成</td>
+<td>多个完整页面构成</td>
+</tr>
+<tr>
+<td>资源共用（css，js）</td>
+<td>共用，只需在外壳部分加载</td>
+<td>不共用，每个页面都需要加载</td>
+</tr>
+<tr>
+<td>刷新方式</td>
+<td>页面局部刷新或更改</td>
+<td>整页刷新</td>
+</tr>
+<tr>
+<td>URL 模式</td>
+<td><code>xxx.com/#/first</code><br /><code>xxx.com/#/second</code></td>
+<td><code>xxx.com/#/first.html</code><br /><code>xxx.com/#/second.html</code></td>
+</tr>
+<tr>
+<td>用户体验</td>
+<td>页面片段间切换快，用户体验好</td>
+<td>页面切换加载缓慢，流畅度不够，用户体验较差</td>
+</tr>
+<tr>
+<td>转场动画</td>
+<td>容易实现</td>
+<td>无法实现</td>
+</tr>
+<tr>
+<td>数据传递</td>
+<td>容易</td>
+<td>依赖 URL 传参，或者 cookie、localStorage 等</td>
+</tr>
+<tr>
+<td>搜索引擎优化（SEO）</td>
+<td>需要单独方案、实现较为困难、不利于SEO检索、可利用服务端渲染（SSR）优化</td>
+<td>容易实现</td>
+</tr>
+<tr>
+<td>使用范围</td>
+<td>高要求的体验度、追求界面流畅的应用（一般是后台管理系统）</td>
+<td>适用于追求高度支持搜索引擎的应用</td>
+</tr>
+<tr>
+<td>维护成本</td>
+<td>相对容易</td>
+<td>相对复杂</td>
+</tr>
+</tbody></table>
+
+
+<div class="article-footer reveal fs14"><section id="references"><div class="header"><span>参考资料</span></div><div class="body"><ul><li class="post-title"><a href="https://juejin.cn/post/6844903918753808398#heading-19" target="_blank" rel="external nofollow noopener noreferrer">[vue-router 中常用的 hash 和 history 路由模式实现原理](https://juejin.cn/post/6844903918753808398#heading-19)</a></li><li class="post-title"><a href="https://juejin.cn/post/6917523941435113486" target="_blank" rel="external nofollow noopener noreferrer">你好，谈谈你对前端路由的理解</a></li><li class="post-title"><a href="https://juejin.cn/post/6844903512107663368" target="_blank" rel="external nofollow noopener noreferrer">前端：你要懂的单页面应用和多页面应用</a></li></ul></div></section><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2021/03/01/google-search-skills/">Google 搜索技巧</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2020/06/30/vue-difference-version/">Vue 两个版本的区别（完整版 v.s. 运行时版）</a></div></section></div>
+
+
+
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><p>本站由 <a href="/">@anonymity</a> 使用 <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a> 主题创建。<br>本博客所有文章除特别声明外，均采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> 许可协议，转载请注明出处。</p>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+
+
+<!-- inject -->
+
+
+  </div>
+</body>
+</html>
