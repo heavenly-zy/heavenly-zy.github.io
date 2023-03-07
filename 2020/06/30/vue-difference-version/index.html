@@ -31,7 +31,7 @@
 <meta property="og:description" content="使用 Vue 实例的三种方式 方法一：从 HTML 得到视图 使用「完整版 Vue」 通过 cdn 或 import 来引入 vue.js 或者 vue.min.js 将视图写在 HTML 中或者写在 template 选项中   方法二：用 JS 来构建视图 使用「非完整版 Vue」 通过 cdn 或 import 来引入 vue.runtime.js 或者 vue.runtime.min.js">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-06-30T20:56:48.000Z">
-<meta property="article:modified_time" content="2023-03-07T03:15:13.675Z">
+<meta property="article:modified_time" content="2023-03-07T08:35:06.957Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Vue">
 <meta property="article:tag" content="SEO">
@@ -172,9 +172,9 @@
 
 <p>Vue 作者的思路：</p>
 <ol>
-<li>为了保证用户体验，让用户下载的 JS 文件体积更小，但只 &#x3D;&#x3D;支持 h 函数&#x3D;&#x3D;</li>
-<li>为了保证开发体验，让开发者可以直接在 vue 文件里写 HTML 标签，而 &#x3D;&#x3D;不写 h 函数&#x3D;&#x3D;</li>
-<li>由此发明了 vue-loader，脏活儿让 loader 来做， &#x3D;&#x3D;vue-loader 把 vue 文件里的 HTML 转为 h 函数&#x3D;&#x3D;</li>
+<li>为了保证用户体验，让用户下载的 JS 文件体积更小，但只<strong>支持 h 函数</strong></li>
+<li>为了保证开发体验，让开发者可以直接在 vue 文件里写 HTML 标签，而<strong>不写 h 函数</strong></li>
+<li>由此发明了 vue-loader，脏活儿让 loader 来做，<strong>vue-loader 把 vue 文件里的 HTML 转为 h 函数</strong></li>
 </ol>
 <h2 id="SEO-基本原理"><a href="#SEO-基本原理" class="headerlink" title="SEO 基本原理"></a>SEO 基本原理</h2><ul>
 <li>全称：Search Engine Optimization，中文：搜索引擎优化</li>
@@ -339,7 +339,7 @@
     stellar.search = {};
     stellar.search.service = 'local_search';
     if (stellar.search.service == 'local_search') {
-      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
       stellar.search[stellar.search.service] = service_obj;
     }
   }

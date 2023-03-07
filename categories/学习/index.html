@@ -75,7 +75,7 @@
 <div class="widgets">
 <widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
 
-<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span></div><div class="widget-body related-posts fs14"><a class="item title" href="/2021/08/20/dns-and-tcp/"><span class="title">DNS 与 TCP</span></a><a class="item title" href="/2021/02/22/frontend-routing/"><span class="title">浅析前端路由</span></a><a class="item title" href="/2021/03/01/google-search-skills/"><span class="title">Google 搜索技巧</span></a><a class="item title" href="/2023/03/07/hello-world/"><span class="title">Hello World</span></a><a class="item title" href="/2021/07/23/javascript-snippets/"><span class="title">JavaScript Snippets</span></a></div></widget>
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span></div><div class="widget-body related-posts fs14"><a class="item title" href="/2021/08/20/dns-and-tcp/"><span class="title">DNS 与 TCP</span></a><a class="item title" href="/2021/02/22/frontend-routing/"><span class="title">浅析前端路由</span></a><a class="item title" href="/2021/03/01/google-search-skills/"><span class="title">Google 搜索技巧</span></a><a class="item title" href="/2021/07/23/javascript-snippets/"><span class="title">JavaScript Snippets</span></a><a class="item title" href="/2021/06/17/npm&package.json/"><span class="title">npm & package.json</span></a></div></widget>
 
 
 </div>
@@ -138,10 +138,10 @@ AND运算符将只返回与这两个术语相关的结果:::default no-iconhtml 
 
 使用OR运算符获取与其中一个搜索词相关的结果:::default no-icon(javascript OR python) free course或者(javas...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2021-03-01T11:28:30.000Z">2021-03-01</time></span><span class="cap breadcrumb">学习</span></div></article>
 </a><a class="post-card post " href="/2021/02/22/frontend-routing/">
-<article class="md-text"><h2 class="post-title">浅析前端路由</h2><div class="excerpt"><p>:::info本文并非原创，而是参考了很多其他文章的内容，仅当作学习记录使用:::
-什么是前端路由用最简单的话来说就是，&#x3D;&#x3D;页面间的跳转仅由前端来控制，而不需要向后端发起请求&#x3D;&#x3D;。前端路由反映的是URL和组件之间的映射关系。
+<article class="md-text"><h2 class="post-title">浅析前端路由</h2><div class="excerpt"><p>什么是前端路由用最简单的话来说就是，页面间的跳转仅由前端来控制，而不需要向后端发起请求。前端路由反映的是URL和组件之间的映射关系。
 
-如何实现前端路由vue-router 中有 3 种路由模式：hash、history、abstract（不常用），这里仅介绍下...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2021-02-22T17:12:30.000Z">2021-02-22</time></span><span class="cap breadcrumb">学习</span></div></article>
+如何实现前端路由vue-router 中有 3 种路由模式：hash、history、abstract（不常用），这里仅介绍下 hash 模式和 history 模式的简单实现
+hash 模式早期的前端路由的实现就是基于 location.hash 来实现的...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2021-02-22T17:12:30.000Z">2021-02-22</time></span><span class="cap breadcrumb">学习</span></div></article>
 </a><a class="post-card post " href="/2020/06/30/vue-difference-version/">
 <article class="md-text"><h2 class="post-title">Vue 两个版本的区别（完整版 v.s. 运行时版）</h2><div class="excerpt"><p>使用 Vue 实例的三种方式
 方法一：从 HTML 得到视图
@@ -290,7 +290,7 @@ AND运算符将只返回与这两个术语相关的结果:::default no-iconhtml 
     stellar.search = {};
     stellar.search.service = 'local_search';
     if (stellar.search.service == 'local_search') {
-      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"sort":"-date"});
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
       stellar.search[stellar.search.service] = service_obj;
     }
   }
