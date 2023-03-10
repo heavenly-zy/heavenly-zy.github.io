@@ -23,18 +23,23 @@
   <title>TypeScript 中的类型（下） - ClariS</title>
 
   
-    <meta name="description" content="何时使用 enum何时使用 type何时使用 interfacetype 和 interface 的区别补充：void">
+    <meta name="description" content="何时使用 enum  实例一：用 A.todo 将数字映射成一个有意义的语法   实例二：可以用于表示权限   以上代码中，Manage &#x3D; Read | Write | Delete 是 JS 中的二进制操作（二进制或运算符），0b 在 JS 中表示二进制 何时用 enum 会显得很呆？    还是别再用 enum 来映射字符串了吧ヾ(-_-;)  只推荐用 enum 对数字做映射，除此之外都不">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TypeScript 中的类型（下）">
 <meta property="og:url" content="http://example.com/2022/12/29/typescript/ts-3/index.html">
 <meta property="og:site_name" content="ClariS">
-<meta property="og:description" content="何时使用 enum何时使用 type何时使用 interfacetype 和 interface 的区别补充：void">
+<meta property="og:description" content="何时使用 enum  实例一：用 A.todo 将数字映射成一个有意义的语法   实例二：可以用于表示权限   以上代码中，Manage &#x3D; Read | Write | Delete 是 JS 中的二进制操作（二进制或运算符），0b 在 JS 中表示二进制 何时用 enum 会显得很呆？    还是别再用 enum 来映射字符串了吧ヾ(-_-;)  只推荐用 enum 对数字做映射，除此之外都不">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/typescript/ts-3/ts_3_01.png">
+<meta property="og:image" content="http://example.com/images/typescript/ts-3/ts_3_02.png">
+<meta property="og:image" content="http://example.com/images/typescript/ts-3/ts_3_03.png">
+<meta property="og:image" content="http://example.com/images/typescript/ts-3/ts_3_04.png">
 <meta property="article:published_time" content="2022-12-29T00:00:00.000Z">
-<meta property="article:modified_time" content="2023-03-10T01:06:04.061Z">
+<meta property="article:modified_time" content="2023-03-10T10:55:06.261Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="TypeScript">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/typescript/ts-3/ts_3_01.png">
   
   
 
@@ -103,7 +108,32 @@
 
 <article class='md-text content post'>
 <h1 class="article-title"><span>TypeScript 中的类型（下）</span></h1>
-<h2 id="何时使用-enum"><a href="#何时使用-enum" class="headerlink" title="何时使用 enum"></a>何时使用 enum</h2><h2 id="何时使用-type"><a href="#何时使用-type" class="headerlink" title="何时使用 type"></a>何时使用 type</h2><h2 id="何时使用-interface"><a href="#何时使用-interface" class="headerlink" title="何时使用 interface"></a>何时使用 interface</h2><h2 id="type-和-interface-的区别"><a href="#type-和-interface-的区别" class="headerlink" title="type 和 interface 的区别"></a>type 和 interface 的区别</h2><h2 id="补充：void"><a href="#补充：void" class="headerlink" title="补充：void"></a>补充：void</h2>
+<h2 id="何时使用-enum"><a href="#何时使用-enum" class="headerlink" title="何时使用 enum"></a>何时使用 enum</h2><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/typescript/ts-3/ts_3_01.png" fancybox="true"/></div></div>
+
+<p>实例一：用 <code>A.todo</code> 将数字映射成一个有意义的语法</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/typescript/ts-3/ts_3_02.png" fancybox="true"/></div></div>
+
+<p>实例二：可以用于表示权限</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/typescript/ts-3/ts_3_03.png" fancybox="true"/></div></div>
+
+<p>以上代码中，<code>Manage = Read | Write | Delete</code> 是 JS 中的二进制操作（二进制或运算符），<code>0b</code> 在 JS 中表示二进制</p>
+<div class="tag-plugin quot"><p class="content" type="text">何时用 enum 会显得很呆？</p></div>
+
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/typescript/ts-3/ts_3_04.png" fancybox="true"/></div></div>
+
+<p>还是别再用 <code>enum</code> 来映射字符串了吧ヾ(-_-;)</p>
+<blockquote>
+<p>只推荐用 <code>enum</code> 对数字做映射，除此之外都不推荐使用 <code>enum</code></p>
+</blockquote>
+<h2 id="何时使用-type"><a href="#何时使用-type" class="headerlink" title="何时使用 type"></a>何时使用 type</h2><p>类型别名 Type Aliases</p>
+<p>给其他类型取个名字</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Name</span> = <span class="built_in">string</span>;</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">FalseLike</span> = <span class="string">&#x27;&#x27;</span> | <span class="number">0</span> | <span class="literal">false</span> | <span class="literal">null</span> | <span class="literal">undefined</span>;</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Point</span> = &#123; <span class="attr">x</span>: <span class="built_in">number</span>; <span class="attr">y</span>: <span class="built_in">number</span> &#125;;</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Points</span> = <span class="title class_">Point</span>[];</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Line</span> = [<span class="title class_">Point</span>, <span class="title class_">Point</span>];</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Circle</span> = &#123; <span class="attr">center</span>: <span class="title class_">Point</span>; <span class="attr">radius</span>: <span class="built_in">number</span> &#125;;</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Fn</span> = <span class="function">(<span class="params">a: <span class="built_in">number</span>, b: <span class="built_in">number</span></span>) =&gt;</span> <span class="built_in">number</span>;</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">FnWithProps</span> = &#123;</span><br><span class="line">  (<span class="attr">a</span>: <span class="built_in">number</span>, <span class="attr">b</span>: <span class="built_in">number</span>): <span class="built_in">number</span>;</span><br><span class="line">  <span class="attr">prop1</span>: <span class="built_in">number</span>;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> X = &#123; <span class="attr">x</span>: <span class="built_in">number</span> &#125;</span><br><span class="line"><span class="keyword">type</span> A = X</span><br></pre></td></tr></table></figure>
+
+<details class="tag-plugin folding" ><summary><span>以上 TS 代码中 A 的值是？</span></summary><div class="body"><p>当于只有一个元素的<strong>集合</strong>，因此 <code>a</code> 的值只能是 <code>[1, 2, 3]</code></p></div></details>
+
+<h2 id="何时使用-interface"><a href="#何时使用-interface" class="headerlink" title="何时使用 interface"></a>何时使用 interface</h2><h2 id="type-和-interface-的区别"><a href="#type-和-interface-的区别" class="headerlink" title="type 和 interface 的区别"></a>type 和 interface 的区别</h2><h2 id="补充：void"><a href="#补充：void" class="headerlink" title="补充：void"></a>补充：void</h2>
 
 <div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
 </div></section></div>
