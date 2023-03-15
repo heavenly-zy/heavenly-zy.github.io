@@ -23,18 +23,22 @@
   <title>类型兼容与赋值 - ClariS</title>
 
   
-    <meta name="description" content="为什么要有类型兼容简单类型的兼容普通对象的兼容接口的兼容函数的兼容参数个数不同参数类型不同返回值不同实际工作中的函数特殊类型的兼容顶类型(Top Type) 与 底类型(Bottom Type)">
+    <meta name="description" content="为什么要有类型兼容因为实际工作中，往往无法做到类型一致   上面的 JS 代码中，runTask 函数只接受具有 a、b、c 这 3 个 key 的对象，一般情况下，即使我们多传一个 d，也不报错 你有的，我都有，则我能代替你；y 有的，x 都有，则 x 兼容 y 简单类型的兼容类型小的兼容类型大的，因此将字符串 hi 赋值给 a 不报错    注意：图中的大小圆应当是包含关系，即小圆应该在大圆内">
 <meta property="og:type" content="article">
 <meta property="og:title" content="类型兼容与赋值">
 <meta property="og:url" content="http://example.com/2023/01/30/typescript/ts-6/index.html">
 <meta property="og:site_name" content="ClariS">
-<meta property="og:description" content="为什么要有类型兼容简单类型的兼容普通对象的兼容接口的兼容函数的兼容参数个数不同参数类型不同返回值不同实际工作中的函数特殊类型的兼容顶类型(Top Type) 与 底类型(Bottom Type)">
+<meta property="og:description" content="为什么要有类型兼容因为实际工作中，往往无法做到类型一致   上面的 JS 代码中，runTask 函数只接受具有 a、b、c 这 3 个 key 的对象，一般情况下，即使我们多传一个 d，也不报错 你有的，我都有，则我能代替你；y 有的，x 都有，则 x 兼容 y 简单类型的兼容类型小的兼容类型大的，因此将字符串 hi 赋值给 a 不报错    注意：图中的大小圆应当是包含关系，即小圆应该在大圆内">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/typescript/ts-6/ts_6_01.png">
+<meta property="og:image" content="http://example.com/images/typescript/ts-6/ts_6_02.png">
+<meta property="og:image" content="http://example.com/images/typescript/ts-6/ts_6_03.png">
 <meta property="article:published_time" content="2023-01-30T00:00:00.000Z">
-<meta property="article:modified_time" content="2023-03-14T12:01:27.170Z">
+<meta property="article:modified_time" content="2023-03-15T07:31:48.467Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="TypeScript">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/typescript/ts-6/ts_6_01.png">
   
   
 
@@ -103,7 +107,23 @@
 
 <article class='md-text content post'>
 <h1 class="article-title"><span>类型兼容与赋值</span></h1>
-<h2 id="为什么要有类型兼容"><a href="#为什么要有类型兼容" class="headerlink" title="为什么要有类型兼容"></a>为什么要有类型兼容</h2><h2 id="简单类型的兼容"><a href="#简单类型的兼容" class="headerlink" title="简单类型的兼容"></a>简单类型的兼容</h2><h2 id="普通对象的兼容"><a href="#普通对象的兼容" class="headerlink" title="普通对象的兼容"></a>普通对象的兼容</h2><h2 id="接口的兼容"><a href="#接口的兼容" class="headerlink" title="接口的兼容"></a>接口的兼容</h2><h2 id="函数的兼容"><a href="#函数的兼容" class="headerlink" title="函数的兼容"></a>函数的兼容</h2><h3 id="参数个数不同"><a href="#参数个数不同" class="headerlink" title="参数个数不同"></a>参数个数不同</h3><h3 id="参数类型不同"><a href="#参数类型不同" class="headerlink" title="参数类型不同"></a>参数类型不同</h3><h3 id="返回值不同"><a href="#返回值不同" class="headerlink" title="返回值不同"></a>返回值不同</h3><h3 id="实际工作中的函数"><a href="#实际工作中的函数" class="headerlink" title="实际工作中的函数"></a>实际工作中的函数</h3><h2 id="特殊类型的兼容"><a href="#特殊类型的兼容" class="headerlink" title="特殊类型的兼容"></a>特殊类型的兼容</h2><h2 id="顶类型-Top-Type-与-底类型-Bottom-Type"><a href="#顶类型-Top-Type-与-底类型-Bottom-Type" class="headerlink" title="顶类型(Top Type) 与 底类型(Bottom Type)"></a>顶类型(Top Type) 与 底类型(Bottom Type)</h2>
+<h2 id="为什么要有类型兼容"><a href="#为什么要有类型兼容" class="headerlink" title="为什么要有类型兼容"></a>为什么要有类型兼容</h2><p>因为实际工作中，往往无法做到类型一致</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/typescript/ts-6/ts_6_01.png" fancybox="true"/></div></div>
+
+<p>上面的 JS 代码中，<code>runTask</code> 函数只接受具有 <code>a</code>、<code>b</code>、<code>c</code> 这 3 个 <code>key</code> 的对象，一般情况下，即使我们多传一个 <code>d</code>，也不报错</p>
+<p>你有的，我都有，则我能代替你；<br>y 有的，x 都有，则 x 兼容 y</p>
+<h2 id="简单类型的兼容"><a href="#简单类型的兼容" class="headerlink" title="简单类型的兼容"></a>简单类型的兼容</h2><p>类型小的兼容类型大的，因此将字符串 <code>hi</code> 赋值给 <code>a</code> 不报错</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/typescript/ts-6/ts_6_02.png" fancybox="true"/></div></div>
+
+<blockquote>
+<p>注意：图中的大小圆应当是包含关系，即小圆应该在大圆内部，此处为了展示清晰将小圆挪到了外部，后面的图示亦如此</p>
+</blockquote>
+<h2 id="普通对象的兼容"><a href="#普通对象的兼容" class="headerlink" title="普通对象的兼容"></a>普通对象的兼容</h2><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/typescript/ts-6/ts_6_03.png" fancybox="true"/></div></div>
+
+<p>对象兼容的前提是必须得存在<strong>共同的属性</strong>，此处共同的属性是 <code>name</code> 和 <code>age</code></p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Person</span> = &#123; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">age</span>: <span class="built_in">number</span> &#125;</span><br><span class="line"><span class="keyword">let</span> user = &#123; <span class="attr">name</span>: <span class="string">&#x27;ClariS&#x27;</span>, <span class="attr">age</span>: <span class="number">18</span>, <span class="attr">id</span>: <span class="number">1</span>, <span class="attr">email</span>: <span class="string">&#x27;xxx@yyy.com&#x27;</span> &#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="attr">p</span>: <span class="title class_">Person</span> = user <span class="comment">// 不报错</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> <span class="title function_">f1</span> = (<span class="params">p: Person</span>) =&gt; &#123;</span><br><span class="line">  <span class="variable language_">console</span>.<span class="title function_">log</span>(p)</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_">f1</span>(user) <span class="comment">// 不报错</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="接口的兼容"><a href="#接口的兼容" class="headerlink" title="接口的兼容"></a>接口的兼容</h2><h2 id="函数的兼容"><a href="#函数的兼容" class="headerlink" title="函数的兼容"></a>函数的兼容</h2><h3 id="参数个数不同"><a href="#参数个数不同" class="headerlink" title="参数个数不同"></a>参数个数不同</h3><h3 id="参数类型不同"><a href="#参数类型不同" class="headerlink" title="参数类型不同"></a>参数类型不同</h3><h3 id="返回值不同"><a href="#返回值不同" class="headerlink" title="返回值不同"></a>返回值不同</h3><h3 id="实际工作中的函数"><a href="#实际工作中的函数" class="headerlink" title="实际工作中的函数"></a>实际工作中的函数</h3><h2 id="特殊类型的兼容"><a href="#特殊类型的兼容" class="headerlink" title="特殊类型的兼容"></a>特殊类型的兼容</h2><h2 id="顶类型-Top-Type-与-底类型-Bottom-Type"><a href="#顶类型-Top-Type-与-底类型-Bottom-Type" class="headerlink" title="顶类型(Top Type) 与 底类型(Bottom Type)"></a>顶类型(Top Type) 与 底类型(Bottom Type)</h2>
 
 <div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
 </div></section></div>
@@ -116,6 +136,18 @@
 
 
 
+
+  <div class='related-wrap md-text reveal' id="comments">
+    <section class='header cmt-title cap theme'>
+      快来参与讨论吧
+    </section>
+    <section class='body cmt-body waline'>
+      
+
+<div id="waline_container" class="waline_thread"><svg class="loading" style="vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2709"><path d="M832 512c0-176-144-320-320-320V128c211.2 0 384 172.8 384 384h-64zM192 512c0 176 144 320 320 320v64C300.8 896 128 723.2 128 512h64z" p-id="2710"></path></svg></div>
+
+    </section>
+  </div>
 
 
 
@@ -474,6 +506,31 @@
 
 
 <!-- optional -->
+
+  <script>
+  function load_comment(){
+    if(!document.getElementById("waline_container"))return;
+    stellar.loadCSS('https://unpkg.com/@waline/client@v2/dist/waline.css');
+    stellar.loadScript('https://unpkg.com/@waline/client@v2/dist/waline.js', {defer:true}).then(function () {
+      const el = document.getElementById("waline_container");
+      var path = el.getAttribute('comment_id');
+      if (!path) {
+        path = decodeURI(window.location.pathname);
+      }
+      Waline.init(Object.assign({"js":"https://unpkg.com/@waline/client@v2/dist/waline.js","css":"https://unpkg.com/@waline/client@v2/dist/waline.css","serverURL":"https://www.silkyheart.moe","commentCount":false,"pageview":false,"locale":{"placeholder":"欢迎评论"},"emoji":["https://gcore.jsdelivr.net/gh/norevi/waline-blobcatemojis@1.0/blobs"]}, {
+        el: '#waline_container',
+        path: path,
+        
+      }));
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    load_comment();
+  });
+
+</script>
+
 
 
 
