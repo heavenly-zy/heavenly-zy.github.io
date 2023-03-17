@@ -53,6 +53,8 @@
     
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css" />
     
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakana-widget@2.5.0/lib/sakana.min.css"/>
+    
   
 </head>
 
@@ -472,6 +474,10 @@ hash 模式...</p></div><div class="meta cap"><span class="cap" id="post-meta">�
 
 <!-- inject -->
 
+  
+    <script async onload="initSakanaWidget()" src="https://cdn.jsdelivr.net/npm/sakana-widget@2.5.0/lib/sakana.min.js"></script>
+  
+
 
   </div>
 <!-- hexo injector body_end start -->
@@ -542,6 +548,20 @@ hash 模式...</p></div><div class="meta cap"><span class="cap" id="post-meta">�
       } else {
         console.error('当前浏览器不支持此api')
       }
+    }
+  </script>
+  
+  <div id="sakana-widget"></div>
+  <style>
+    #sakana-widget {
+      position: fixed;
+      bottom:0;
+      left:0;
+    }
+  </style>
+  <script>
+    function initSakanaWidget() {
+      new SakanaWidget().setState({ i: 0.001, d: 1 }).mount('#sakana-widget');
     }
   </script>
   <!-- hexo injector body_end end --></body>

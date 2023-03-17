@@ -33,7 +33,7 @@
 <meta property="og:image" content="http://example.com/images/promise-async-await/promise_01.png">
 <meta property="og:image" content="http://example.com/images/promise-async-await/promise_02.png">
 <meta property="article:published_time" content="2021-08-17T00:00:00.000Z">
-<meta property="article:modified_time" content="2023-03-16T08:31:27.860Z">
+<meta property="article:modified_time" content="2023-03-17T06:52:09.316Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="Promise">
 <meta property="article:tag" content="async&#x2F;await">
@@ -61,6 +61,8 @@
   
     
       <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css" />
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakana-widget@2.5.0/lib/sakana.min.css"/>
     
   
 </head>
@@ -654,6 +656,10 @@
 
 <!-- inject -->
 
+  
+    <script async onload="initSakanaWidget()" src="https://cdn.jsdelivr.net/npm/sakana-widget@2.5.0/lib/sakana.min.js"></script>
+  
+
 
   </div>
 <!-- hexo injector body_end start -->
@@ -724,6 +730,20 @@
       } else {
         console.error('当前浏览器不支持此api')
       }
+    }
+  </script>
+  
+  <div id="sakana-widget"></div>
+  <style>
+    #sakana-widget {
+      position: fixed;
+      bottom:0;
+      left:0;
+    }
+  </style>
+  <script>
+    function initSakanaWidget() {
+      new SakanaWidget().setState({ i: 0.001, d: 1 }).mount('#sakana-widget');
     }
   </script>
   <!-- hexo injector body_end end --></body>
