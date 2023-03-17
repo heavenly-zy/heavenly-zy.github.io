@@ -23,18 +23,20 @@
   <title>script 标签的 defer 与 async 属性（转载） - ClariS</title>
 
   
-    <meta name="description" content="原文戳这里：https:&#x2F;&#x2F;github.com&#x2F;mrlmx&#x2F;blogs&#x2F;issues&#x2F;4   前言在面试的时候，经常会遇到一道经典的面试题：  如何优化网页加载速度？  常规的回答中总会有一条：  把 css 文件放在页面顶部，把 js 文件放在页面底部。  那么，为什么要把 js 文件放在页面的最底部呢？ 我们先来看下这段代码： 1234567891011121314&lt;!DOCTYPE">
+    <meta name="description" content="原文戳这里👉：https:&#x2F;&#x2F;github.com&#x2F;mrlmx&#x2F;blogs&#x2F;issues&#x2F;4   前言在面试的时候，经常会遇到一道经典的面试题：  如何优化网页加载速度？  常规的回答中总会有一条：  把 css 文件放在页面顶部，把 js 文件放在页面底部。  那么，为什么要把 js 文件放在页面的最底部呢？ 我们先来看下这段代码： 1234567891011121314&lt;!DOCTYP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="script 标签的 defer 与 async 属性（转载）">
 <meta property="og:url" content="http://example.com/2023/03/17/async-and-defer/index.html">
 <meta property="og:site_name" content="ClariS">
-<meta property="og:description" content="原文戳这里：https:&#x2F;&#x2F;github.com&#x2F;mrlmx&#x2F;blogs&#x2F;issues&#x2F;4   前言在面试的时候，经常会遇到一道经典的面试题：  如何优化网页加载速度？  常规的回答中总会有一条：  把 css 文件放在页面顶部，把 js 文件放在页面底部。  那么，为什么要把 js 文件放在页面的最底部呢？ 我们先来看下这段代码： 1234567891011121314&lt;!DOCTYPE">
+<meta property="og:description" content="原文戳这里👉：https:&#x2F;&#x2F;github.com&#x2F;mrlmx&#x2F;blogs&#x2F;issues&#x2F;4   前言在面试的时候，经常会遇到一道经典的面试题：  如何优化网页加载速度？  常规的回答中总会有一条：  把 css 文件放在页面顶部，把 js 文件放在页面底部。  那么，为什么要把 js 文件放在页面的最底部呢？ 我们先来看下这段代码： 1234567891011121314&lt;!DOCTYP">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="http://example.com/images/async-and-defer/async_and_defer_01.png">
 <meta property="og:image" content="http://example.com/images/async-and-defer/async_and_defer_02.png">
 <meta property="og:image" content="http://example.com/images/async-and-defer/async_and_defer_03.png">
+<meta property="og:image" content="http://example.com/images/async-and-defer/async_and_defer_04.png">
+<meta property="og:image" content="http://example.com/images/async-and-defer/async_and_defer_05.png">
 <meta property="article:published_time" content="2023-03-17T00:00:00.000Z">
-<meta property="article:modified_time" content="2023-03-17T13:15:42.400Z">
+<meta property="article:modified_time" content="2023-03-17T13:46:19.869Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="async">
 <meta property="article:tag" content="defer">
@@ -90,7 +92,7 @@
 <widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
 
 
-<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">script 标签的 defer 与 async 属性（转载）</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lt-script-defer-gt"><span class="toc-text">&lt;script defer&gt;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lt-script-async-gt"><span class="toc-text">&lt;script async&gt;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#defer"><span class="toc-text">defer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#async"><span class="toc-text">async</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#One-More-Thing"><span class="toc-text">One More Thing</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E5%9B%BE%E8%83%9C%E5%8D%83%E8%A8%80"><span class="toc-text">一图胜千言</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%80%83%E9%A2%98%F0%9F%A4%94"><span class="toc-text">思考题🤔</span></a></li></ol></div></div></widget>
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">script 标签的 defer 与 async 属性（转载）</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%89%8D%E8%A8%80"><span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lt-script-defer-gt"><span class="toc-text">&lt;script defer&gt;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#lt-script-async-gt"><span class="toc-text">&lt;script async&gt;</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%9D%E8%80%83%E9%A2%98%F0%9F%A4%94"><span class="toc-text">思考题🤔</span></a></li></ol></div></div></widget>
 
 
 
@@ -110,7 +112,7 @@
 
 <article class='md-text content post'>
 <h1 class="article-title"><span>script 标签的 defer 与 async 属性（转载）</span></h1>
-<p>原文戳这里：<a target="_blank" rel="noopener" href="https://github.com/mrlmx/blogs/issues/4">https://github.com/mrlmx/blogs/issues/4</a></p>
+<p>原文戳这里👉：<a target="_blank" rel="noopener" href="https://github.com/mrlmx/blogs/issues/4">https://github.com/mrlmx/blogs/issues/4</a></p>
 <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/async-and-defer/async_and_defer_01.png" fancybox="true"/></div></div>
 
 <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在面试的时候，经常会遇到一道经典的面试题：</p>
@@ -136,7 +138,7 @@
 <div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/async-and-defer/async_and_defer_02.png" fancybox="true"/></div></div>
 
 <p>浏览器的解析规则是：如果遇到 <code>script</code> 标签，则暂停构建 <code>DOM</code>，转而开始执行 <code>script</code> 标签，如果是外部 <code>script</code>，那么浏览器还需要一直等待其「下载」并「执行」后，再继续解析后面的 HTML。</p>
-<p>如果请求并执行「vue.global.js」需要 3 秒，「vue-router.global.js」需要 2 秒，那么页面中的 Hello 👋🏻 ~，则至少需要 5 秒以上才会展示出来。</p>
+<p>如果请求并执行「<code>vue.global.js</code>」需要 3 秒，「<code>vue-router.global.js</code>」需要 2 秒，那么页面中的 <code>Hello 👋🏻 ~</code>，则至少需要 5 秒以上才会展示出来。</p>
 <p>可以看到，<code>script</code> 标签会阻塞浏览器解析 HTML，如果把 <code>script</code> 都放在 <code>head</code> 中，在网络不佳的情况下，就会导致页面长期处于白屏状态。</p>
 <p>在很久以前，一般都是将这些外联脚本，放在 <code>body</code> 标签的最后面，确保先解析展示 <code>body</code> 中的内容，然后再一个个请求执行这些外联脚本。</p>
 <p>那有没有其他更优雅的解决方案呢？</p>
@@ -171,7 +173,79 @@
 <li><code>defer</code> 属性仅适用于外部脚本，如果 <code>script</code> 脚本没有 <code>src</code>，则会忽略 <code>defer</code> 特性。</li>
 <li><code>defer</code> 属性对模块脚本（<code>&lt;script type=&#39;module&#39;&gt;&lt;/script&gt;</code>）无效，因为模块脚本就是以 <code>defer</code> 的形式加载的。</li>
 </ul>
-<h2 id="lt-script-async-gt"><a href="#lt-script-async-gt" class="headerlink" title="&lt;script async&gt;"></a><code>&lt;script async&gt;</code></h2><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="defer"><a href="#defer" class="headerlink" title="defer"></a>defer</h3><h3 id="async"><a href="#async" class="headerlink" title="async"></a>async</h3><h3 id="One-More-Thing"><a href="#One-More-Thing" class="headerlink" title="One More Thing"></a>One More Thing</h3><h3 id="一图胜千言"><a href="#一图胜千言" class="headerlink" title="一图胜千言"></a>一图胜千言</h3><h2 id="思考题🤔"><a href="#思考题🤔" class="headerlink" title="思考题🤔"></a>思考题🤔</h2>
+<h2 id="lt-script-async-gt"><a href="#lt-script-async-gt" class="headerlink" title="&lt;script async&gt;"></a><code>&lt;script async&gt;</code></h2><p>按照惯例，先看一下 MDN 上的解释：</p>
+<blockquote>
+<p>对于普通脚本，如果存在 async 属性，那么普通脚本会被并行请求，并尽快解析和执行。<br>对于模块脚本，如果存在 async 属性，那么脚本及其所有依赖都会在延缓队列中执行，因此它们会被并行请求，并尽快解析和执行。<br>该属性能够消除解析阻塞的 Javascript。<br>解析阻塞的 Javascript 会导致浏览器必须加载并且执行脚本，之后才能继续解析。</p>
+</blockquote>
+<p>感觉这段描述的已经蛮清晰了，不过咱们还是先看看下面的代码，展开说说细节，加深一下理解。</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Hi<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span>&gt;</span><span class="language-javascript"></span></span><br><span class="line"><span class="language-javascript">      <span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&quot;Howdy ~&quot;</span>);</span></span><br><span class="line"><span class="language-javascript">    </span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">&quot;https://google-analytics.com/analytics.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">async</span> <span class="attr">src</span>=<span class="string">&quot;https://ads.google.cn/ad.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    Hello 👋🏻 ~</span><br><span class="line">  <span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>他的执行顺序是：</p>
+<ol>
+<li>在控制台打印：<code>Howdy ~</code></li>
+<li>并行请求 <code>analytics.js</code> 和 <code>ad.js</code></li>
+<li>在页面中展示：<code>Hello 👋🏻 ~</code></li>
+<li>根据网络的实际情况，以下几项会无序执行<ul>
+<li>执行 <code>analytics.js</code> （下载完后，立即执行）</li>
+<li>执行 <code>ad.js</code> （下载完后，立即执行）</li>
+<li>触发 <code>DOMContentLoaded</code> 事件（可能在在上面 2 个脚本之前，之间，之后触发）</li>
+</ul>
+</li>
+</ol>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/async-and-defer/async_and_defer_04.png" fancybox="true"/></div></div>
+
+<p>浏览器在解析到带有 <code>async</code> 属性的 <code>script</code> 标签时，也不会阻塞页面，同样是在后台默默下载此脚本。当他下载完后，浏览器会暂停解析 HTML，立马执行此脚本。</p>
+<p>看起来还是蛮好理解的吧？咱们再来讨论 2 个小细节：</p>
+<p><strong>Q1：</strong>如果设置了 <code>async</code> 属性的 <code>script</code> 下载完之后，浏览器还没解析完 HTML，会怎样？<br><strong>A1：</strong>浏览器会暂停解析 HTML，立马执行此脚本，等执行完之后，再继续解析 HTML。</p>
+<p><strong>Q2：</strong>如果有多个 <code>async</code> 属性的 <code>script</code> 标签，那等他们下载完成之后，会按照代码顺序执行吗？<br><strong>A2：</strong>不会。执行顺序是：谁先下载完成，谁先执行。<code>async</code> 的特点是「完全独立」，不依赖其他内容。</p>
+<p><strong>最佳实践：</strong></p>
+<p>当我们的项目，需要集成其他独立的第三方库时，可以使用此属性，他们不依赖我们，我们也不依赖于他们。<br>通过设置此属性，让浏览器异步下载并执行他，是个不错的优化方案。</p>
+<p><strong>注意：</strong></p>
+<p><code>async</code> 特性仅适用于外部脚本，如果 <code>script</code> 脚本没有 <code>src</code>，则会忽略 <code>async</code> 特性。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><div class="tag-plugin quot"><p class="content" type="text">defer</p></div>
+
+<ul>
+<li>不阻塞浏览器解析 HTML，等解析完 HTML 之后，才会执行 <code>script</code>。</li>
+<li>会并行下载 JavaScript 资源。</li>
+<li>会按照 HTML 中的相对顺序执行脚本。</li>
+<li>会在脚本下载并执行完成之后，才会触发 <code>DOMContentLoaded</code> 事件。</li>
+<li>在脚本执行过程中，一定可以获取到 HTML 中已有的元素。</li>
+<li><code>defer</code> 属性对模块脚本无效。</li>
+<li>适用于：所有外部脚本（通过 <code>src</code> 引用的 <code>script</code>）。</li>
+</ul>
+<div class="tag-plugin quot"><p class="content" type="text">async</p></div>
+
+<ul>
+<li>不阻塞浏览器解析 HTML，但是 <code>script</code> 下载完成后，会立即中断浏览器解析 HTML，并执行此 <code>script</code>。</li>
+<li>会并行下载 JavaScript 资源。</li>
+<li>互相独立，谁先下载完，谁先执行，没有固定的先后顺序，不可控。</li>
+<li>由于没有确定的执行时机，所以在脚本里面可能会获取不到 HTML 中已有的元素。</li>
+<li><code>DOMContentLoaded</code> 事件和 <code>script</code> 脚本无相关性，无法确定他们的先后顺序。</li>
+<li>适用于：独立的第三方脚本。</li>
+</ul>
+<p>另外：<code>async</code> 和 <code>defer</code> 之间最大的区别在于它们的执行时机。</p>
+<div class="tag-plugin quot"><p class="content" type="text">One More Thing</p></div>
+
+<p>你有没有想过，如果一个 <code>script</code> 标签同时设置 <code>defer</code> 和 <code>async</code>，浏览器会如何处理？</p>
+<p>先说结论：从表现形式上来说，<code>async</code> 的优先级比 <code>defer</code> 高，也就是如果同时存在这 2 个属性，那么浏览器将会以 <code>async</code> 的特性去加载此脚本。</p>
+<p>这主要分 2 种情况：</p>
+<p>如果是「普通脚本」，浏览器会优先判断 <code>async</code> 属性是否存在，如果存在，则以 <code>async</code> 特性去加载此脚本，如果不存在，再去判断是否存在 <code>defer</code> 属性。</p>
+<p>如果是「<a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/script">模块脚本</a>」，浏览器会判断 <code>async</code> 属性是否存在：</p>
+<ul>
+<li>如果存在，浏览器会并行下载此模块和他的所有依赖模块，等全部下载完成之后，会立刻执行此脚本。</li>
+<li>如果不存在，浏览器也会并行下载此模块和他的所有依赖模块，然后等浏览器解析完 HTML 之后，再执行此脚本。</li>
+<li>另外需要注意的是：在模块脚本上设置 <code>defer</code> 属性是无效的。</li>
+</ul>
+<div class="tag-plugin quot"><p class="content" type="text">一图胜千言</p></div>
+
+<p>最后，用一张图概括一下这两个属性的加载模式吧：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/async-and-defer/async_and_defer_05.png" fancybox="true"/></div></div>
+
+<h2 id="思考题🤔"><a href="#思考题🤔" class="headerlink" title="思考题🤔"></a>思考题🤔</h2><ol>
+<li>为什么浏览器在解析到普通的 <code>script</code> 标签时，必须先执行他？</li>
+<li>普通的 <code>script</code> 标签会阻塞浏览器解析 HTML，这会导致什么问题？</li>
+</ol>
+
 
 <div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
 </div></section></div>
