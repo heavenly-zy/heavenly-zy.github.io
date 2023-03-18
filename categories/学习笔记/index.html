@@ -122,13 +122,13 @@
 <article class="md-text"><h2 class="post-title">类型兼容与赋值</h2><div class="excerpt"><p>为什么要有类型兼容因为实际工作中，往往无法做到类型一致
 
 
-上面的 JS 代码中，runTask 函数只接受具有 a、b、c 这 3 个 key 的对象，一般情况下，即使我们多传一个 d，也不报错
+比如在上面的 JS 代码中，假设 runTask 函数的参数只接受具有 a、b、c 这 3 个 key 的对象，但在一般情况下，即使我们多传一个 d，也不会报错
 你有的，我都有，则我能代替你；y 有的，x 都有，则 x 兼容 y
-简单类型的兼容类型小的兼容类型大的，因此将字符串 hi 赋值给 a 不报错
+简单类型的兼容类型小的兼容类型大的
 
 
 
-注意：图中的大小圆应当是包含关系，即小圆应该在...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-01-30T00:00:00.000Z">2023-01-30</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
+注意：图中的大小圆应当是包含关系，即小圆应该在大圆内部，此处为...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-01-30T00:00:00.000Z">2023-01-30</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
 </a><a class="post-card post " href="/2023/01/17/typescript/ts-5/">
 <article class="md-text"><h2 class="post-title">TS 中的类型运算：交叉类型</h2><div class="excerpt"><p>交叉类型（交集）英文全称：intersection types
 12type A = string &amp; number;//   ^-- never
