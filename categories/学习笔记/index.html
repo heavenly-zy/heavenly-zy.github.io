@@ -116,8 +116,17 @@
 那么，为什么要把 js 文件放在页面的最底部呢？
 我们先来看下这段代码：
 1234567891011121314&lt;!DOC...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-03-17T00:00:00.000Z">2023-03-17</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
+</a><a class="post-card post " href="/2023/02/22/typescript/ts-14/">
+<article class="md-text"><h2 class="post-title">TS 类型体操</h2><div class="excerpt"><p></p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-02-22T00:00:00.000Z">2023-02-22</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
+</a><a class="post-card post " href="/2023/02/17/typescript/ts-13/">
+<article class="md-text"><h2 class="post-title">面向对象之 class（下）</h2><div class="excerpt"><p></p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-02-17T00:00:00.000Z">2023-02-17</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
+</a><a class="post-card post " href="/2023/02/16/typescript/ts-12/">
+<article class="md-text"><h2 class="post-title">面向对象之 class（上）</h2><div class="excerpt"><p></p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-02-16T00:00:00.000Z">2023-02-16</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
+</a><a class="post-card post " href="/2023/02/09/typescript/ts-11/">
+<article class="md-text"><h2 class="post-title">面向对象之原型</h2><div class="excerpt"><p></p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-02-09T00:00:00.000Z">2023-02-09</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
 </a><a class="post-card post " href="/2023/02/07/typescript/ts-10/">
-<article class="md-text"><h2 class="post-title">泛型编程（下）</h2><div class="excerpt"><p></p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-02-07T00:00:00.000Z">2023-02-07</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
+<article class="md-text"><h2 class="post-title">泛型编程（下）</h2><div class="excerpt"><p>介绍一些 TS 内置工具类型的用法及实现
+Readonly &amp; Mutable123456789101112131415161718192021type Person = &#123; id: number; name: string; age: number &#125;;type Readonly&lt;T&gt; = &#123;  readonly [K in keyof T...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-02-07T00:00:00.000Z">2023-02-07</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
 </a><a class="post-card post " href="/2023/02/06/typescript/ts-9/">
 <article class="md-text"><h2 class="post-title">泛型编程（上）</h2><div class="excerpt"><p>泛型就像函数函数
 12const f = (a, b) =&gt; a + bconst result = f(1, 2) // 3
@@ -151,49 +160,6 @@ Person 的子集为
 
 
 注意：图中的大小圆应当是包含关系，即小圆应该在大圆内部，此处为...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-01-30T00:00:00.000Z">2023-01-30</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
-</a><a class="post-card post " href="/2023/01/17/typescript/ts-5/">
-<article class="md-text"><h2 class="post-title">TS 中的类型运算：交叉类型</h2><div class="excerpt"><p>交叉类型（交集）英文全称：intersection types
-12type A = string &amp; number;//   ^-- never
-
-交叉类型一般多用于对象，而不用于简单类型
-
-
-123456type 有左手的人 = &#123; left: string &#125;const b = &#123; left: &#x27;yse&#x27;, right: &#x...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-01-17T00:00:00.000Z">2023-01-17</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
-</a><a class="post-card post " href="/2023/01/12/typescript/ts-4/">
-<article class="md-text"><h2 class="post-title">TS 中的类型运算：联合类型</h2><div class="excerpt"><p>TS &#x3D; JS + 类型系统
-JS 可以对值进行加减运算，如果把 TS 的类型系统当作一门语言，TS 也同样可以对类型进行各种运算
-联合类型（并集）英文全称：union types
-
-
-type A = &#123; name: string &#125; 表示 name 为 string 的所有对象但不要错误地认为这些对象只有 name 这一个 key比如对象 &#123; na...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-01-12T00:00:00.000Z">2023-01-12</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
-</a><a class="post-card post " href="/2022/12/29/typescript/ts-3/">
-<article class="md-text"><h2 class="post-title">TypeScript 中的类型（下）</h2><div class="excerpt"><p>何时使用 enum
-
-实例一：用 A.todo 将数字映射成一个有意义的语法
-
-
-实例二：可以用于表示权限
-
-
-以上代码中，Manage = Read | Write | Delete 是 JS 中的二进制操作（二进制或运算符），0b 在 JS 中表示二进制
-何时用 enum 会显得很呆？
-
-
-
-如上所示，将 &#39;apple&#39; 映射为 Fruit.apple 完全是多此一举，还...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-12-29T00:00:00.000Z">2022-12-29</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
-</a><a class="post-card post " href="/2022/12/28/typescript/ts-2/">
-<article class="md-text"><h2 class="post-title">TypeScript 中的类型（上）</h2><div class="excerpt"><p>JS&#x2F;TS 中有哪些数据类型
-
-用集合来理解 TS 数据类型
-
-number 可看做 1、1.1、2、2.3 等所有数字值组成的集合string 可看做 a、b、ab、c、abc 等所有字符串值组成的集合boolean 可看做 true 和 false 这两个值组成的集合
-
-
-
-
-
-
-JS 中的 Number、String、Boolean 只用于包装对象，一般不会用到它们；同样地在...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2022-12-28T00:00:00.000Z">2022-12-28</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
 </a></div>
   
 

@@ -102,7 +102,8 @@
 <div class="nav-wrap"><nav class="sub post cap"><a href="/">近期发布</a><a href="/categories">分类</a><a class="active" href="/tags">标签：泛型</a><a href="/archives">归档</a></nav></div>
 
   <div class="post-list post"><a class="post-card post " href="/2023/02/07/typescript/ts-10/">
-<article class="md-text"><h2 class="post-title">泛型编程（下）</h2><div class="excerpt"><p></p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-02-07T00:00:00.000Z">2023-02-07</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
+<article class="md-text"><h2 class="post-title">泛型编程（下）</h2><div class="excerpt"><p>介绍一些 TS 内置工具类型的用法及实现
+Readonly &amp; Mutable123456789101112131415161718192021type Person = &#123; id: number; name: string; age: number &#125;;type Readonly&lt;T&gt; = &#123;  readonly [K in keyof T...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-02-07T00:00:00.000Z">2023-02-07</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
 </a><a class="post-card post " href="/2023/02/06/typescript/ts-9/">
 <article class="md-text"><h2 class="post-title">泛型编程（上）</h2><div class="excerpt"><p>泛型就像函数函数
 12const f = (a, b) =&gt; a + bconst result = f(1, 2) // 3
