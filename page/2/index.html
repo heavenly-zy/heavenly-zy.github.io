@@ -77,7 +77,7 @@
 <div class="widgets">
 <widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" placeholder="站内搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
 
-<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span></div><div class="widget-body related-posts fs14"><a class="item title" href="/2023/03/17/async-and-defer/"><span class="title">script 标签的 defer 与 async 属性（转载）</span></a><a class="item title" href="/2021/08/20/dns-and-tcp/"><span class="title">DNS 与 TCP</span></a><a class="item title" href="/2021/02/22/frontend-routing/"><span class="title">浅析前端路由</span></a><a class="item title" href="/2021/03/01/google-search-skills/"><span class="title">Google 搜索技巧</span></a><a class="item title" href="/2021/07/23/javascript-snippets/"><span class="title">JavaScript Snippets</span></a></div></widget>
+<widget class="widget-wrapper recent"><div class="widget-header cap theme dis-select"><span class="name">最近更新</span></div><div class="widget-body related-posts fs14"><a class="item title" href="/2023/03/17/async-and-defer/"><span class="title">script 标签的 defer 与 async 属性（转载）</span></a><a class="item title" href="/2021/08/20/dns-and-tcp/"><span class="title">DNS 与 TCP</span></a><a class="item title" href="/2021/02/22/frontend-routing/"><span class="title">浅析前端路由</span></a><a class="item title" href="/2021/03/01/google-search-skills/"><span class="title">Google 搜索技巧</span></a><a class="item title" href="/2023/06/17/how-to-download-excel/"><span class="title">前端如何实现文件下载</span></a></div></widget>
 
 
 </div>
@@ -99,7 +99,27 @@
 
 <div class="nav-wrap"><nav class="sub post cap"><a class="active" href="/">近期发布</a><a href="/categories">分类</a><a href="/tags">标签</a><a href="/archives">归档</a></nav></div>
 
-  <div class="post-list post"><a class="post-card post " href="/2023/01/17/typescript/ts-5/">
+  <div class="post-list post"><a class="post-card post " href="/2023/02/03/typescript/ts-8/">
+<article class="md-text"><h2 class="post-title">深入函数：函数重载、this 和 as const</h2><div class="excerpt"><p>函数重载（overload）重载允许一个函数在接受不同数量或类型的参数时，作出不同的处理
+1234567891011121314151617function createDate(n: number): Date;function createDate(year: number, month: number, date: number): Date;// 中间不能写其他代码，函数类型声明后面...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-02-03T00:00:00.000Z">2023-02-03</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
+</a><a class="post-card post " href="/2023/02/01/typescript/ts-7/">
+<article class="md-text"><h2 class="post-title">深入函数：声明、参数、返回值</h2><div class="excerpt"><p>深入对象语法描述对象的属性使用接口描述对象
+12345678type Person = &#123;  name: string&#125;// 或者interface Person &#123;  name: string&#125;
+
+Person 的子集为
+12345678910type Children =  | &#123; name: string, age: string &#...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-02-01T00:00:00.000Z">2023-02-01</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
+</a><a class="post-card post " href="/2023/01/30/typescript/ts-6/">
+<article class="md-text"><h2 class="post-title">类型兼容与赋值</h2><div class="excerpt"><p>为什么要有类型兼容因为实际工作中，往往无法做到类型一致
+
+
+比如在上面的 JS 代码中，假设 runTask 函数的参数只接受具有 a、b、c 这 3 个 key 的对象，但在一般情况下，即使我们多传一个 d，也不会报错
+你有的，我都有，则我能代替你；y 有的，x 都有，则 x 兼容 y
+简单类型的兼容类型小的兼容类型大的
+
+
+
+注意：图中的大小圆应当是包含关系，即小圆应该在大圆内部，此处为...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2023-01-30T00:00:00.000Z">2023-01-30</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
+</a><a class="post-card post " href="/2023/01/17/typescript/ts-5/">
 <article class="md-text"><h2 class="post-title">TS 中的类型运算：交叉类型</h2><div class="excerpt"><p>交叉类型（交集）英文全称：intersection types
 12type A = string &amp; number;//   ^-- never
 
@@ -178,20 +198,6 @@ DNS &amp; hostsDNS，全称：Domain Name System，中文：域名系统
 </a><a class="post-card post " href="/2021/08/17/promise-async-await/">
 <article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/promise-async-await/cover.png"/></div><h2 class="post-title">浅析 Promise、Async/Await</h2><div class="excerpt"><p>Promise基本用法Promise 的简单封装与使用
 1234567891011// 封装function 摇色子() &#123;  return new Promise((resolve, reject) =&gt; &#123;    setTimeout(() =&gt; &#123;      resolve(Math.floor(Math.random() * 6) + 1) ...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2021-08-17T00:00:00.000Z">2021-08-17</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
-</a><a class="post-card post " href="/2021/07/23/javascript-snippets/">
-<article class="md-text"><div class="post-cover"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/javascript-snippets/cover.png"/></div><h2 class="post-title">JavaScript Snippets</h2><div class="excerpt"><p>:::info收集的一些常用的 JavaScript 代码片段:::
-将给定字符串中每个单词的首字母转为大写1234const capitalizeWord = (string) =&gt;  string.replace(/\b[a-z]/g, (char) =&gt; char.toUpperCase());console.log(capitalizeWord(&quot;hello w...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2021-07-23T00:00:00.000Z">2021-07-23</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
-</a><a class="post-card post " href="/2021/06/21/oauth2.0/">
-<article class="md-text"><h2 class="post-title">第三方应用授权：OAuth 2.0</h2><div class="excerpt"><p>介绍OAuth 2.0 是目前最流行的授权机制，用来授权第三方应用，获取用户数据。
-简单说，OAuth 就是一种授权机制。数据的所有者告诉系统，同意授权第三方应用进入系统，获取这些数据。系统从而产生一个短期的进入令牌（access_token），用来代替密码，供第三方应用使用。
-OAuth 2.0 的优点：保证了令牌既可以让第三方应用获得权限，同时又随时可控，不会危及系统安全
-令牌与密码的区...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2021-06-21T00:00:00.000Z">2021-06-21</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
-</a><a class="post-card post " href="/2021/06/17/npm&package.json/">
-<article class="md-text"><h2 class="post-title">npm & package.json</h2><div class="excerpt"><p>npm 是什么npm 是 Node.js 的包管理工具，Node.js package manger，通过 npm Node.js 可以方便地使用第三方开发的开源模块，同时也可以把自己的模块发布到 npm 供其它开发者使用。
-npm 主要由三部分组成：
-
-npm website：https://npmjs.com，开发者查找发现 package 的站点
-CLI（命令行）：开发者可以使用命令行...</p></div><div class="meta cap"><span class="cap" id="post-meta">发布于&nbsp;<time datetime="2021-06-17T00:00:00.000Z">2021-06-17</time></span><span class="cap breadcrumb">学习笔记</span></div></article>
 </a></div>
   
   <div class='paginator-wrap dis-select'>
