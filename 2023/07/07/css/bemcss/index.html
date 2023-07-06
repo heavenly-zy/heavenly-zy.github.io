@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>CSS命名规范-BEM（转载） - ClariS</title>
+
+  
+    <meta name="description" content="原文戳这里👉：https:&#x2F;&#x2F;bemcss.com BEM 解决的问题css 的样式应用是全局性的，没有作用域可言。考虑以下场景： 场景一：开发一个弹窗组件，在现有页面中测试都没问题，一段时间后，新需求新页面，该页面一打开这个弹窗组件，页面中样式都变样了，一查问题，原来是弹窗组件和该页面的样式相互覆盖了，接下来就是修改覆盖样式的选择器…又一段时间，又开发新页面，每次为元素命名都心惊胆战，求神拜佛">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS命名规范-BEM（转载）">
+<meta property="og:url" content="http://example.com/2023/07/07/css/bemcss/index.html">
+<meta property="og:site_name" content="ClariS">
+<meta property="og:description" content="原文戳这里👉：https:&#x2F;&#x2F;bemcss.com BEM 解决的问题css 的样式应用是全局性的，没有作用域可言。考虑以下场景： 场景一：开发一个弹窗组件，在现有页面中测试都没问题，一段时间后，新需求新页面，该页面一打开这个弹窗组件，页面中样式都变样了，一查问题，原来是弹窗组件和该页面的样式相互覆盖了，接下来就是修改覆盖样式的选择器…又一段时间，又开发新页面，每次为元素命名都心惊胆战，求神拜佛">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-07-07T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-07-06T10:45:52.979Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="BEM">
+<meta name="twitter:card" content="summary">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css" />
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sakana-widget@2.5.0/lib/sakana.min.css"/>
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">ClariS</div><div class="sub normal cap">标题1</div><div class="sub hover cap" style="opacity:0"> 标题2</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/chat/">留言</a><a class="nav-item" href="/friends/">朋友们</a><a class="nav-item" href="/about/">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">CSS命名规范-BEM（转载）</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#BEM-%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-text">BEM 解决的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BEM-%E5%91%BD%E5%90%8D%E5%A5%BD%E9%95%BF"><span class="toc-text">BEM 命名好长</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AD%90%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-text">子选择器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BEM-%E4%BF%AE%E9%A5%B0%E5%99%A8"><span class="toc-text">BEM 修饰器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E5%AD%90%E7%B1%BB%E5%92%8C-BEM"><span class="toc-text">原子类和 BEM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E9%99%85%E9%A1%B5%E9%9D%A2%E4%B8%AD%E4%B9%9F%E5%BA%94%E8%AF%A5%E4%BD%BF%E7%94%A8-BEM"><span class="toc-text">实际页面中也应该使用 BEM</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#webpack-css-loader-%E8%A7%A3%E5%86%B3%E4%B9%8B%E9%81%93"><span class="toc-text">webpack css-loader 解决之道</span></a></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a> <span class="sep"></span> <a class="cap breadcrumb-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/CSS/">CSS</a></div><div id="post-meta">发布于&nbsp;<time datetime="2023-07-07T00:00:00.000Z">2023-07-07</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>CSS命名规范-BEM（转载）</span></h1>
+<p>原文戳这里👉：<a target="_blank" rel="noopener" href="https://bemcss.com/">https://bemcss.com</a></p>
+<h2 id="BEM-解决的问题"><a href="#BEM-解决的问题" class="headerlink" title="BEM 解决的问题"></a>BEM 解决的问题</h2><p>css 的样式应用是全局性的，没有作用域可言。考虑以下场景：</p>
+<p><strong>场景一：</strong>开发一个弹窗组件，在现有页面中测试都没问题，一段时间后，新需求新页面，该页面一打开这个弹窗组件，页面中样式都变样了，一查问题，原来是弹窗组件和该页面的样式相互覆盖了，接下来就是修改覆盖样式的选择器…又一段时间，又开发新页面，每次为元素命名都心惊胆战，求神拜佛，没写一条样式，F5都按多几次，每个组件都测试一遍…</p>
+<p><strong>场景二：</strong>承接上文，由于页面和弹窗样式冲突了，所以把页面的冲突样式的选择器加上一些结构逻辑，比如子选择器、标签选择器，借此让选择器独一无二。一段时间后，新同事接手跟进需求，对样式进行修改，由于选择器是一连串的结构逻辑，看不过来，嫌麻烦，就干脆在样式文件最后用另一套选择器，加上了覆盖样式…接下来又有新的需求…最后的结果，一个元素对应多套样式，遍布整个样式文件…</p>
+<p>以往开发组件，我们都用“重名概率小”或者干脆起个“当时认为是独一无二的名字”来保证样式不冲突，这是不可靠的。</p>
+<p>理想的状态下，我们开发一套组件的过程中，我们应该可以随意的为其中元素进行命名，而不必担心它是否与组件以外的样式发生冲突。</p>
+<p>BEM 解决这一问题的思路在于，由于项目开发中，每个组件都是唯一无二的，其名字也是独一无二的，组件内部元素的名字都加上组件名，并用元素的名字作为选择器，自然组件内的样式就不会与组件外的样式冲突了。</p>
+<p>这是通过组件名的唯一性来保证选择器的唯一性，从而保证样式不会污染到组件外。</p>
+<p>这也可以看作是一种“硬性约束”，因为一般来说，我们的组件会放置在同一目录下，那么操作系统中，同一目录下文件名必须唯一，这一点也就确保了组件之间不会冲突。</p>
+<p>BEM 的命名规矩很容易记：<code>block-name__element-name--modifier-name</code>，也就是<strong>模块名 + 元素名 + 修饰器名</strong>。</p>
+<p>一般来说，根据组件目录名来作为组件名字：</p>
+<p>比如分页组件：<code>/app/components/page-btn/</code></p>
+<p>那么该组件模块就名为 <code>page-btn</code>，组件内部的元素命名都必须加上模块名，比如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;page-btn&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">class</span>=<span class="string">&quot;page-btn__prev&quot;</span>&gt;</span>上一页<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- ... --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">class</span>=<span class="string">&quot;page-btn__next&quot;</span>&gt;</span>下一页<span class="tag">&lt;/<span class="name">button</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+
+<p>上面我们用双下划线来明确区分模块名和元素名，当然也可以用单下划线，比如 <code>page-btn_prev和page-btn_next</code>。我们只需保留 BEM 的思想，其命名规范可以任意变通。</p>
+<p>一开始了解 BEM 的时候，可能会产生误解，出现以下不正确的命名方式：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;page-btn&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- ... --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;page-btn__list&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">li</span> <span class="attr">class</span>=<span class="string">&quot;page-btn__list__item&quot;</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">&quot;#&quot;</span> <span class="attr">class</span>=<span class="string">&quot;page-btn__list__item__link&quot;</span>&gt;</span>第一页<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- ... --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+
+<p>分页组件有个 ul 列表名为：<code>page-btn__list</code>，列表里面存放每一页的按钮，名为：<code>page-btn__list__item__link</code>，这是不对的。</p>
+<p>首先，有悖 BEM 命名规范，BEM 的命名中只包含三个部分，元素名只占其中一部分，所以不能出现多个元素名的情况，所以上述每一页的按钮名可以改成：<code>page-btn__btn</code>。</p>
+<p>其次，有悖 BEM 思想，BEM 是不考虑结构的，比如上面的分页按钮，即使它是在 ul 列表里面，它的命名也不应该考虑其父级元素。当我们遵循了这个规定，无论父元素名发生改变，或是模块构造发生的改变，还是元素之间层级关系互相变动，这些都不会影响元素的名字。</p>
+<p>所以即使需求变动了，分页组件该有按钮还是要有按钮的，DOM 构造发生变动，至多也就不同元素的增删减，模块内名称也随之增删减，而不会出现修改名字的情况，也就不会因为名字变动，牵涉到 JS 文件的修改，或样式文件的修改。</p>
+<h2 id="BEM-命名好长"><a href="#BEM-命名好长" class="headerlink" title="BEM 命名好长"></a>BEM 命名好长</h2><p>BEM 的命名中包含了模块名，长长的命名会让 HTML 标签会显得臃肿。</p>
+<p>其实每个使用 BEM 的开发团队多多少少会改变其命名规范，比如 Instagram 团队使用的驼峰式:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.blockName-elementName--modifierName</span> &#123; <span class="comment">/* ... */</span> &#125; </span><br></pre></td></tr></table></figure>
+
+<p>还有单下划线：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.block-name_element-name--modifierName</span> &#123; <span class="comment">/* ... */</span> &#125; </span><br></pre></td></tr></table></figure>
+
+<p>还有修饰器名用单横线连接：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.blockName__elementName-modifierName</span> &#123; <span class="comment">/* ... */</span> &#125; </span><br></pre></td></tr></table></figure>
+
+<p>其实这些对缩短命名没有多大的帮助，但我们也无需担心文件体积的问题，由于服务端有 gzip 压缩，BEM 命名相同的部分多，压缩下来的体积不会太大。另外现在都用 IDE 来编写代码了，有自动提示功能，也无须担心重复的输入过长的名字。</p>
+<p>因为命名长，我们是不是可以用子代选择器来代替 BEM 命名？这样至少在 HTML 编写时，让 HTML 标签看起来美观一点。</p>
+<p>下面说说子代选择器带来的问题。</p>
+<h2 id="子选择器"><a href="#子选择器" class="headerlink" title="子选择器"></a>子选择器</h2><p>子代选择器的方式是，通过组件的根节点的名称来选取子代元素。按照这个思路，分页按钮样式可以这么写：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;page-btn&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- ... --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">ul</span> <span class="attr">class</span>=<span class="string">&quot;list&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">ul</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- ... --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.page-btn</span> &#123; <span class="comment">/* ... */</span> &#125; </span><br><span class="line"><span class="selector-class">.page-btn</span> <span class="selector-class">.list</span> &#123; <span class="comment">/* ... */</span> &#125; </span><br></pre></td></tr></table></figure>
+
+<p>HTML 看起来美观多了，但这解决了样式冲突问题么？试想下，如果让你来接手这个项目，要增加一个需求，新增一个组件，你命名放心么？</p>
+<p>你面临的问题是：你打开组件目录，里面有个分页组件，叫做 <code>page-btn</code>，可是你完全不知道要怎么给新组件命名，因为即使新组件模块名与 <code>page-btn</code> 不一样，也不能保证新组件与分页组件不冲突。</p>
+<p>比如新的需求是“新增一个列表组件”，如果该组件的名字叫做 <code>list</code>，其根节点的名字叫 <code>list</code>，那么这个组件下面写的样式，就很可能和 <code>.page-btn .list</code> 的样式冲突:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.list</span> &#123; <span class="comment">/* ... */</span> &#125; </span><br></pre></td></tr></table></figure>
+
+<p>这还仅仅只有两个组件而已，实际项目中，十几个或几十个组件，难道我们要每个组件都检查一下来“新组件名是否和以往组件的子元素命名冲突了”么？这不现实。</p>
+<p>BEM 禁止使用子代选择器，以上是原因之一。子代选择器不好的地方还在于，如果层次关系过长，逻辑不清晰，非常不利于维护。为了懒得命名或者追求所谓的“精简代码”，写出下面这种选择器：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.page-btn</span> <span class="selector-tag">button</span><span class="selector-pseudo">:first</span>-child &#123;&#125; </span><br><span class="line"><span class="selector-class">.page-btn</span> <span class="selector-tag">ul</span> <span class="selector-tag">li</span> <span class="selector-tag">a</span> &#123;&#125;</span><br><span class="line"><span class="comment">/* ... */</span> </span><br><span class="line"><span class="comment">/* 维护代码，新增需求 */</span></span><br><span class="line"><span class="selector-class">.page-btn</span> <span class="selector-class">.prev</span> &#123;&#125; </span><br></pre></td></tr></table></figure>
+
+<p>用层次关系结构关系来定位元素，可能会因为需求改变而大面积的重写样式文件。试想一下维护这类代码有多么痛苦，我们要一边检查该元素的上下文 DOM 结构，一边对照着 CSS 文件，一一对比，找到该元素对应的样式，也就是说我为了改一个元素的代码，需要不断翻阅 HTML 文件和 CSS 文件，可维护性非常之差。更有甚者，来维护这块代码的同事，直接<strong>在样式文件最后</strong>添加覆盖样式，这会造成一个<strong>非常严重</strong>的问题了：同一个元素样式零散的分布在文件的不同地方，而且定位该元素的选择器也可能各不相同。</p>
+<p>这样的样式文件只会越写越糟糕，可以说，当我们用子代选择器来定位元素时，这个样式文件就已经注定是要被翻来覆去的重构的了，甚至，每个来维护这个文件的人都会将其重构一遍。</p>
+<p>子代选择器还会造成权重过大的问题，当我们要做响应式的时候，某个带样式的元素需要适配不同的屏幕，此时，我们还要<strong>不断的确认该元素之前的选择器写法</strong>！为了覆盖前面权重过大的样式，甚至通过添加<strong>额外的类名或标签名</strong>来增加权重。可想而知，此后这个样式文件的维护难度就像雪球一样，越滚越大。</p>
+<p>如果我们用的是 BEM，要覆盖样式很简单：找到要覆盖样式的元素，得知它的类名，在媒体查询中，用它的类名作为选择器，写下覆盖样式，样式就覆盖成功了，不需要担心前面样式的权重过大。</p>
+<h2 id="BEM-修饰器"><a href="#BEM-修饰器" class="headerlink" title="BEM 修饰器"></a>BEM 修饰器</h2><p>根据不同的场景，组件可能会表现出不同的样式。比如分页组件在 pc 端具有具体的页码以及上下页按钮，但在移动端，因空间有限，可能只保留上下页按钮。我们可以用修饰器来区分这两种情况。默认情况下，分页按钮的类名为 <code>page-btn</code>，但在移动端，我们需要加多个类名 <code>page-btn--min</code></p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 缩小版分页组件中，具体页码按钮隐去 */</span> </span><br><span class="line"><span class="selector-class">.page-btn--min</span> <span class="selector-class">.page-btn__btn</span> &#123; <span class="attribute">display</span>: none; &#125;</span><br><span class="line"><span class="selector-class">.page-btn--min</span> <span class="selector-class">.page-btn__prev</span> &#123; <span class="attribute">width</span>: <span class="number">50%</span>; &#125;</span><br><span class="line"><span class="selector-class">.page-btn--min</span> <span class="selector-class">.page-btn__prev</span> &#123; <span class="attribute">width</span>: <span class="number">50%</span>; &#125; </span><br></pre></td></tr></table></figure>
+
+<p>上面这种情况用了子代选择器，BEM 是不允许这么写的，BEM 中修饰器的样式不依赖于任何结构关系，也就是说，元素的状态改变只会影响自身，不对其他元素进行影响，但实际上，这很难做到的。以上的写法不会造成样式冲突的，而且权重的影响也不大。</p>
+<p>BEM 修饰器代表着元素的状态，但有时候元素的状态需要 js 来控制，此时遵循规范没有任何好处，比如激活状态，BEM 推荐的写法是：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.block__element</span> &#123; <span class="attribute">display</span>: none; &#125;</span><br><span class="line"><span class="selector-class">.block__element--active</span> &#123; <span class="attribute">display</span>: block; &#125; </span><br></pre></td></tr></table></figure>
+
+<p>当用 js 为该元素添加状态时，我们需要知道该元素的名字 <code>block__element</code>，这样我们才能推导出它的激活状态为 <code>block__element--active</code>，这是不合理的，因为很多时候我们无法得知元素的名称，所以这时候，我们应该统一 js 控制状态的类名格式，比如 <code>is-active</code>、<code>js-active</code> 等等，这些类名只用作标识，不予许有默认的公共样式：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-class">.block__element</span> &#123; <span class="attribute">display</span>: none; &#125;</span><br><span class="line"><span class="selector-class">.block__element</span><span class="selector-class">.is-active</span> &#123; <span class="attribute">display</span>: block; &#125; </span><br></pre></td></tr></table></figure>
+
+<h2 id="原子类和-BEM"><a href="#原子类和-BEM" class="headerlink" title="原子类和 BEM"></a>原子类和 BEM</h2><p>BEM 可以不需要用到原子类，但是如果已经引入了类似 Bootstrap 的框架，也没必要强制避免使用原子类，比如“pull-right”、”ellipsis”、“clearfix”等等类，这些类非常实用，和 BEM 是可以互补的。</p>
+<p>在组件开发中其实不推荐使用原子类，因为这会降低组件的可复用性。可复用性的最理想状态就是组件不仅仅在不同的页面中表现一致，在跨项目的情况下，也能够运行良好。如果组件的样式因为依赖于某几个原子类就要依赖整个 Bootstrap 库，那么组件的迁移负担就重很多了。</p>
+<p>原子类更适合应用在实际页面中，这是因为页面<strong>变动大而且不可复用</strong>，假设在 header 中，我们用到了两个组件 logo 和 user-panel（用户操作面板），两个组件分别置于 header 的左侧和右侧，我们可以这么写：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;header clearfix&quot;</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;logo pull-left&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- ... --&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">div</span> <span class="attr">class</span>=<span class="string">&quot;user-panel pull-left&quot;</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!-- ... --&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+
+<p>header 可以封装成一个模块，但它复用程度不高，不能算是组件，所以即使使用原子类也没有关系。在项目中，使用原子类之前应该考虑一下，这个场景是否变动大而且不可复用，如果是的话，我们可以放心的使用原子类。</p>
+<p>组件应该是“自洽的”，其本身就应该构成了一个“生态圈”，也就是说，他几乎不需要外部供给，自给自足就能够运转下去。</p>
+<h2 id="实际页面中也应该使用-BEM"><a href="#实际页面中也应该使用-BEM" class="headerlink" title="实际页面中也应该使用 BEM"></a>实际页面中也应该使用 BEM</h2><p>在实际页面中也需要用到 BEM 命名方法，不然乱起的一个名字很可能就和某一组件冲突了，导致样式相互覆盖。</p>
+<p>假如我们有联系页面，路径是 <code>/pages/contact/</code>。那么该页面的模块名可以是 <code>page-contact</code>，其名下元素均以 <code>page-contact__element-name</code> 命名。</p>
+<p>一般来说，实际页面中只是对组件进行调用，对组件的位置进行调整，但不会对组件内部细节进行修改。但实际情况下，同一个组件在不同页面不同模样的情况也是有的，所以会出现在实际页面中对组件样式进行微调的代码：</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 联系页面对分页按钮进行微调 */</span></span><br><span class="line"><span class="selector-class">.page-contact</span> <span class="selector-class">.page-btn</span> &#123;&#125; </span><br></pre></td></tr></table></figure>
+
+<p>但更推荐的做法是给分页组件添加一个修饰器，将上面的样式放到修饰器名下，再根据实际情况运用到页面中。</p>
+<h2 id="webpack-css-loader-解决之道"><a href="#webpack-css-loader-解决之道" class="headerlink" title="webpack css-loader 解决之道"></a>webpack css-loader 解决之道</h2><p>BEM 主要被诟病的一点在于其命名过长，结合 Angular 这种带有标签指令的框架时，整个 HTML 看起来会更混乱：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 发帖页面 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span> <span class="attr">ng-repeat</span>=<span class="string">&quot;post in postData track by post.id&quot;</span> <span class="attr">ng-if</span>=<span class="string">&quot;$index === 0&quot;</span> <span class="attr">class</span>=<span class="string">&quot;page-post__post-item&quot;</span> <span class="attr">ng-class</span>=<span class="string">&quot;&#123;&#x27;page-post__post-item--even&#x27;: $even&#125;&quot;</span> <span class="attr">popover-content</span>=<span class="string">&quot;&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">span</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+
+<p>当然，我们可以通过换行来缓解这个问题:</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- 发帖页面 --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">span</span></span></span><br><span class="line"><span class="tag">  <span class="attr">ng-repeat</span>=<span class="string">&quot;post in postData track by post.id&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">ng-if</span>=<span class="string">&quot;$index === 0&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">class</span>=<span class="string">&quot;page-post__post-item&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">ng-class</span>=<span class="string">&quot;&#123;&#x27;page-post__post-item--even&#x27;: $even&#125;&quot;</span></span></span><br><span class="line"><span class="tag">  <span class="attr">popover-content</span>=<span class="string">&quot;&quot;</span></span></span><br><span class="line"><span class="tag">&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">span</span>&gt;</span> </span><br></pre></td></tr></table></figure>
+
+<p>但其实说穿了，BEM 保证样式不冲突的核心就是：在元素名中加入唯一的标识。这个标识在 BEM 中对应的是模块名，也可能是一个独一无二的乱序字符串。</p>
+<p>为模块中每个元素名加入标识，这可是重复的工作啊，重复的工作就应该交给机器去做。</p>
+<p>webpack 加载器 css-loader，可在 js 中读取 css 样式，自2015年4月份起，该插件加入了 placeholder 功能，使得该插件可以解决 CSS 作用域的问题，原理也就是给元素的名称加入唯一的标识。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 分页组件 */</span></span><br><span class="line">:<span class="built_in">local</span>(.prev) &#123;&#125; </span><br></pre></td></tr></table></figure>
+
+<p>css-loader 加载器自定义的语法：<code>:local(.identifier)&#123;&#125;</code> 向外暴露出选择器 <code>.prev</code>。在 JS 代码中，我们可以拿到这个选择器：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> styles <span class="keyword">from</span> <span class="string">&#x27;./page-btn.css&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> $prevBtn = $(<span class="string">&#x27;&lt;button class=&quot;&#x27;</span> + styles.<span class="property">prev</span> + <span class="string">&#x27;&quot;&gt;上一页&lt;/button&gt;&#x27;</span>);</span><br><span class="line"><span class="comment">// ... </span></span><br></pre></td></tr></table></figure>
+
+<p><code>styles.prev</code> 返回的是一串独一无二且随机的字符串，该字符串对应着样式文件中的选择器。这名字有悖语义化，但 css-loader 支持配置字符串的生成格式。</p>
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2023/07/06/css/-webkit-fill-available/">-webkit-fill-available 关键字</a></div></section></div>
+
+
+
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><center>
+  <span id="runtime_span"></span>
+  <span class="my-face">(●'◡'●)ﾉ♥</span>
+  <script type="text/javascript">
+    function show_runtime() {
+      window.setTimeout('show_runtime()', 1000);
+      X = Date.UTC(2021, 01, 26, 17, 36, 35);
+      Y = new Date().getTime();
+      T = Y - X;
+      M = 24 * 60 * 60 * 1000;
+      a = T / M;
+      A = Math.floor(a);
+      b = (a - A) * 24;
+      B = Math.floor(b);
+      c = (b - B) * 60;
+      C = Math.floor((b - B) * 60);
+      D = Math.floor((c - C) * 60);
+      runtime_span.innerHTML =
+        '⏱️博客已运行 ' + A + '天' + B + '小时' + C + '分' + D + '秒';
+    }
+    show_runtime();
+  </script>
+  <style>
+    .my-face {
+      color: pink;
+      animation: my-face 5s infinite ease-in-out;
+      display: inline-block;
+      margin: 0 5px;
+    }
+    @keyframes my-face {
+      2% {
+        transform: translate(0, 1.5px) rotate(1.5deg);
+      }
+      4% {
+        transform: translate(0, -1.5px) rotate(-0.5deg);
+      }
+      6% {
+        transform: translate(0, 1.5px) rotate(-1.5deg);
+      }
+      8% {
+        transform: translate(0, -1.5px) rotate(-1.5deg);
+      }
+      10% {
+        transform: translate(0, 2.5px) rotate(1.5deg);
+      }
+      12% {
+        transform: translate(0, -0.5px) rotate(1.5deg);
+      }
+      14% {
+        transform: translate(0, -1.5px) rotate(1.5deg);
+      }
+      16% {
+        transform: translate(0, -0.5px) rotate(-1.5deg);
+      }
+      18% {
+        transform: translate(0, 0.5px) rotate(-1.5deg);
+      }
+      20% {
+        transform: translate(0, -1.5px) rotate(2.5deg);
+      }
+      22% {
+        transform: translate(0, 0.5px) rotate(-1.5deg);
+      }
+      24% {
+        transform: translate(0, 1.5px) rotate(1.5deg);
+      }
+      26% {
+        transform: translate(0, 0.5px) rotate(0.5deg);
+      }
+      28% {
+        transform: translate(0, 0.5px) rotate(1.5deg);
+      }
+      30% {
+        transform: translate(0, -0.5px) rotate(2.5deg);
+      }
+      32% {
+        transform: translate(0, 1.5px) rotate(-0.5deg);
+      }
+      34% {
+        transform: translate(0, 1.5px) rotate(-0.5deg);
+      }
+      36% {
+        transform: translate(0, -1.5px) rotate(2.5deg);
+      }
+      38% {
+        transform: translate(0, 1.5px) rotate(-1.5deg);
+      }
+      40% {
+        transform: translate(0, -0.5px) rotate(2.5deg);
+      }
+      42% {
+        transform: translate(0, 2.5px) rotate(-1.5deg);
+      }
+      44% {
+        transform: translate(0, 1.5px) rotate(0.5deg);
+      }
+      46% {
+        transform: translate(0, -1.5px) rotate(2.5deg);
+      }
+      48% {
+        transform: translate(0, -0.5px) rotate(0.5deg);
+      }
+      50% {
+        transform: translate(0, 0.5px) rotate(0.5deg);
+      }
+      52% {
+        transform: translate(0, 2.5px) rotate(2.5deg);
+      }
+      54% {
+        transform: translate(0, -1.5px) rotate(1.5deg);
+      }
+      56% {
+        transform: translate(0, 2.5px) rotate(2.5deg);
+      }
+      58% {
+        transform: translate(0, 0.5px) rotate(2.5deg);
+      }
+      60% {
+        transform: translate(0, 2.5px) rotate(2.5deg);
+      }
+      62% {
+        transform: translate(0, -0.5px) rotate(2.5deg);
+      }
+      64% {
+        transform: translate(0, -0.5px) rotate(1.5deg);
+      }
+      66% {
+        transform: translate(0, 1.5px) rotate(-0.5deg);
+      }
+      68% {
+        transform: translate(0, -1.5px) rotate(-0.5deg);
+      }
+      70% {
+        transform: translate(0, 1.5px) rotate(0.5deg);
+      }
+      72% {
+        transform: translate(0, 2.5px) rotate(1.5deg);
+      }
+      74% {
+        transform: translate(0, -0.5px) rotate(0.5deg);
+      }
+      76% {
+        transform: translate(0, -0.5px) rotate(2.5deg);
+      }
+      78% {
+        transform: translate(0, -0.5px) rotate(1.5deg);
+      }
+      80% {
+        transform: translate(0, 1.5px) rotate(1.5deg);
+      }
+      82% {
+        transform: translate(0, -0.5px) rotate(0.5deg);
+      }
+      84% {
+        transform: translate(0, 1.5px) rotate(2.5deg);
+      }
+      86% {
+        transform: translate(0, -1.5px) rotate(-1.5deg);
+      }
+      88% {
+        transform: translate(0, -0.5px) rotate(2.5deg);
+      }
+      90% {
+        transform: translate(0, 2.5px) rotate(-0.5deg);
+      }
+      92% {
+        transform: translate(0, 0.5px) rotate(-0.5deg);
+      }
+      94% {
+        transform: translate(0, 2.5px) rotate(0.5deg);
+      }
+      96% {
+        transform: translate(0, -0.5px) rotate(1.5deg);
+      }
+      98% {
+        transform: translate(0, -1.5px) rotate(-0.5deg);
+      }
+      0%,
+      100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+    }
+  </style>
+  <div>基于
+    <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a>
+    &nbsp;| <a href="https://icp.gov.moe" target="_blank" style="color: pink;">萌ICP备 </a><a href="https://icp.gov.moe/?keyword=20219713" target="_blank" style="color: pink;"> 20219713号</a>
+  </div>
+</center>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function load_comment(){
+    if(!document.getElementById("waline_container"))return;
+    stellar.loadCSS('https://unpkg.com/@waline/client@v2/dist/waline.css');
+    stellar.loadScript('https://unpkg.com/@waline/client@v2/dist/waline.js', {defer:true}).then(function () {
+      const el = document.getElementById("waline_container");
+      var path = el.getAttribute('comment_id');
+      if (!path) {
+        path = decodeURI(window.location.pathname);
+      }
+      Waline.init(Object.assign({"js":"https://unpkg.com/@waline/client@v2/dist/waline.js","css":"https://unpkg.com/@waline/client@v2/dist/waline.css","serverURL":"https://blog.silkyheart.moe","commentCount":false,"pageview":false,"locale":{"placeholder":"欢迎评论"},"search":false,"emoji":["https://gcore.jsdelivr.net/gh/norevi/waline-blobcatemojis@1.0/blobs"]}, {
+        el: '#waline_container',
+        path: path,
+        
+      }));
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    load_comment();
+  });
+
+</script>
+
+
+
+
+<!-- inject -->
+
+  
+    <script async onload="initSakanaWidget()" src="https://cdn.jsdelivr.net/npm/sakana-widget@2.5.0/lib/sakana.min.js"></script>
+  
+
+
+  </div>
+<!-- hexo injector body_end start -->
+  <style>
+    .highlight {
+      position: relative;
+    }
+    .highlight .code .copy-btn{
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 4px 0.5rem;
+      opacity: 0.25;
+      font-weight: 700;
+      color: var(--theme);
+      cursor: pointer;
+      transination: opacity 0.3s;
+    }
+    .highlight .code .copy-btn:hover{
+      color: var(--text-code);
+      opacity: 0.75;
+    }
+    .highlight .code .copy-btn.success {
+      color: var(--swiper-theme-color);
+      opacity: 0.75;
+
+    }
+    
+  </style>
+  <script>
+    const codeElementArr = document.querySelectorAll('.code')
+    codeElementArr.forEach(code => {
+      const codeBeforeWidth = window.getComputedStyle(code, '::before').width.split('px')[0]
+      const codeBeforePadding = window.getComputedStyle(code, '::before').padding.split(' ').pop().split('px')[0]
+  
+      // copy btn 
+      const codeCopyBtn = document.createElement('div')
+      codeCopyBtn.classList.add('copy-btn')
+      codeCopyBtn.style.right = Number(codeBeforeWidth) + Number(codeBeforePadding) * 2 + 'px'
+      codeCopyBtn.innerText = '复制代码'
+      code.appendChild(codeCopyBtn)
+  
+      codeCopyBtn.addEventListener('click', async () => {
+        const currentCodeElement = code.children[0]?.innerText
+        await copyCode(currentCodeElement)
+
+
+        codeCopyBtn.innerText = '复制成功'
+        codeCopyBtn.classList.add('success')
+
+        setTimeout(() => {
+          codeCopyBtn.innerText = '复制代码'
+          codeCopyBtn.classList.remove('success')
+        },1000)
+      })
+    })
+    
+    async function copyCode(currentCode) {
+      console.log(currentCode)
+      console.log('复制代码')
+      if (navigator.clipboard) {
+        try {
+          await navigator.clipboard.writeText(currentCode)
+        } catch (error) {
+          // 未获得用户许可
+          console.error(error)
+        }
+      } else {
+        console.error('当前浏览器不支持此api')
+      }
+    }
+  </script>
+  
+  <div id="sakana-widget"></div>
+  <style>
+    #sakana-widget {
+      position: fixed;
+      bottom:0;
+      left:0;
+    }
+  </style>
+  <script>
+    function initSakanaWidget() {
+      new SakanaWidget().setState({ i: 0.001, d: 1 }).mount('#sakana-widget');
+    }
+  </script>
+  <!-- hexo injector body_end end --></body>
+</html>
