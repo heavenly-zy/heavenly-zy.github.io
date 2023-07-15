@@ -34,7 +34,7 @@
 <meta property="og:image" content="http://example.com/images/typescript/ts-9/ts_9_02.png">
 <meta property="og:image" content="http://example.com/images/typescript/ts-9/ts_9_03.png">
 <meta property="article:published_time" content="2023-02-06T00:00:00.000Z">
-<meta property="article:modified_time" content="2023-07-13T01:41:15.532Z">
+<meta property="article:modified_time" content="2023-07-15T09:27:32.514Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="TypeScript">
 <meta property="article:tag" content="泛型">
@@ -169,11 +169,14 @@
 <div class="tag-plugin note" color="cyan"><div class="body"><p>注意：以上讨论的规则只对泛型有效</p></div></div>
 
 
-<h2 id="在泛型中使用-keyof"><a href="#在泛型中使用-keyof" class="headerlink" title="在泛型中使用 keyof"></a>在泛型中使用 keyof</h2><p><code>keyof</code> 能获取对象的所有 <code>key</code>，并将获取到的 <code>key</code> 做一个联合（并集）</p>
+<h2 id="在泛型中使用-keyof"><a href="#在泛型中使用-keyof" class="headerlink" title="在泛型中使用 keyof"></a>在泛型中使用 keyof</h2><p><code>keyof</code> 关键字用于获取<strong>对象类型的所有键的联合类型</strong></p>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Person</span> = &#123; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">age</span>: <span class="built_in">number</span> &#125;;</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">GetKeys</span>&lt;T&gt; = keyof T;</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Result</span> = <span class="title class_">GetKeys</span>&lt;<span class="title class_">Person</span>&gt;;</span><br><span class="line"><span class="comment">//     ^-- &#x27;name&#x27; | &#x27;age&#x27;</span></span><br></pre></td></tr></table></figure>
 
 <p>常和映射类型一起使用</p>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Readonly</span>&lt;T&gt; = &#123;</span><br><span class="line">  <span class="keyword">readonly</span> [K <span class="keyword">in</span> keyof T]: T[K];</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+
+<p><code>keyof</code> 也可用于数组 &#x2F; 元组</p>
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> A = keyof [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>];</span><br><span class="line"><span class="comment">// A 的类型为 &quot;0&quot; | &quot;1&quot; | &quot;2&quot; | &quot;length&quot; | &quot;toString&quot; | &quot;pop&quot; | ...</span></span><br></pre></td></tr></table></figure>
 
 <h2 id="在泛型中使用-extends-keyof"><a href="#在泛型中使用-extends-keyof" class="headerlink" title="在泛型中使用 extends keyof"></a>在泛型中使用 extends keyof</h2><figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Person</span> = &#123; <span class="attr">name</span>: <span class="built_in">string</span>; <span class="attr">age</span>: <span class="built_in">number</span> &#125;;</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">GetKeyType</span>&lt;T, K <span class="keyword">extends</span> keyof T&gt; = T[K];</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Result1</span> = <span class="title class_">GetKeyType</span>&lt;<span class="title class_">Person</span>, <span class="string">&#x27;name&#x27;</span>&gt;; <span class="comment">// string</span></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Result2</span> = <span class="title class_">GetKeyType</span>&lt;<span class="title class_">Person</span>, <span class="string">&#x27;age&#x27;</span>&gt;; <span class="comment">// number</span></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Result3</span> = <span class="title class_">GetKeyType</span>&lt;<span class="title class_">Person</span>, <span class="string">&#x27;name&#x27;</span> | <span class="string">&#x27;age&#x27;</span>&gt;; <span class="comment">// string | number</span></span><br></pre></td></tr></table></figure>
 
