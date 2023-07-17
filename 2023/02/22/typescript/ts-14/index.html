@@ -31,7 +31,7 @@
 <meta property="og:description" content="基本原理if(A &lt;&#x3D; B)if(A &lt;&#x3D; B) true else false 123type A &#x3D; 1;type B &#x3D; 1 | 2;type Result &#x3D; A extends B ? true : false; &#x2F;&#x2F; true  if(A &lt;&#x3D; B) and (C &lt;&#x3D; D)1234567891011type A &#x3D; 1;">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2023-02-22T00:00:00.000Z">
-<meta property="article:modified_time" content="2023-07-15T09:27:32.514Z">
+<meta property="article:modified_time" content="2023-07-17T03:57:34.721Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="TypeScript">
 <meta property="article:tag" content="类型体操">
@@ -133,7 +133,7 @@
 <ul>
 <li><code>inter</code> 出现在<strong>条件类型</strong>中，通常与 <code>extends</code> 关键字一起使用</li>
 <li><code>infer</code> 显示地声明了一个新的泛型变量，用于表示待推断的类型</li>
-<li>使用 <code>infer</code> 往往是因为后面需要用到对应的变量，比如上述的 <code>First</code> 和 <code>Rest</code>，表示做一个引用（个人理解）</li>
+<li>当一个类型无法通过简单的方式访问到时, 我们可以使用 <code>infer</code> 关键字来实现对其的快速访问；换言之，使用 <code>infer</code> 往往是因为后面需要用到对应的变量，比如上述的 <code>First</code> 和 <code>Rest</code>，表示做一个引用（个人理解）</li>
 </ul>
 <p>不写引用，直接写类型也是可以的</p>
 <figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">type</span> <span class="title class_">Tuple</span> = [<span class="string">&#x27;Ich&#x27;</span>, <span class="string">&#x27;☆&#x27;</span>, <span class="string">&#x27;liebe&#x27;</span>, <span class="string">&#x27;☆&#x27;</span>, <span class="string">&#x27;dich&#x27;</span>];</span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Result1</span> = <span class="title class_">Tuple</span> <span class="keyword">extends</span> [infer <span class="title class_">First</span>, ...<span class="built_in">string</span>[]] ? <span class="title class_">First</span> : <span class="built_in">never</span>; <span class="comment">// &quot;Ich&quot;</span></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">Result2</span> = <span class="title class_">Tuple</span> <span class="keyword">extends</span> [<span class="string">&#x27;Ich&#x27;</span>, ...infer <span class="title class_">Rest</span>] ? <span class="title class_">Rest</span> : <span class="built_in">never</span>; <span class="comment">// [&quot;☆&quot;, &quot;liebe&quot;, &quot;☆&quot;, &quot;dich&quot;]</span></span><br></pre></td></tr></table></figure>
