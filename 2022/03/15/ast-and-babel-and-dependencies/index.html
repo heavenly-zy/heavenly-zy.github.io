@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang='zh-CN'>
+
+<head>
+  <meta name="generator" content="Hexo 6.3.0">
+  <meta name="hexo-theme" content="https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5">
+  <meta charset="utf-8">
+  
+
+  <meta http-equiv='x-dns-prefetch-control' content='on' />
+  <link rel='dns-prefetch' href='https://gcore.jsdelivr.net'>
+  <link rel="preconnect" href="https://gcore.jsdelivr.net" crossorigin>
+  <link rel='dns-prefetch' href='//unpkg.com'>
+
+  <meta name="renderer" content="webkit">
+  <meta name="force-rendering" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge,chrome=1">
+  <meta name="HandheldFriendly" content="True" >
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="theme-color" content="#f8f8f8">
+  
+  <title>AST、Babel、依赖 - ClariS</title>
+
+  
+    <meta name="description" content="BabelBabel 的原理Babel 转换 JS 代码可以分成以下三个大步骤：  parse: 把代码 code 变成 AST traverse: 遍历 AST 进行修改 generate: 把 AST 变成代码 code2  即，code --(1)-&gt; ast --(2)-&gt; ast2 --(3)-&gt; code2 一个简单的示例：手动把 let 变成 varlet_to_v">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AST、Babel、依赖">
+<meta property="og:url" content="http://example.com/2022/03/15/ast-and-babel-and-dependencies/index.html">
+<meta property="og:site_name" content="ClariS">
+<meta property="og:description" content="BabelBabel 的原理Babel 转换 JS 代码可以分成以下三个大步骤：  parse: 把代码 code 变成 AST traverse: 遍历 AST 进行修改 generate: 把 AST 变成代码 code2  即，code --(1)-&gt; ast --(2)-&gt; ast2 --(3)-&gt; code2 一个简单的示例：手动把 let 变成 varlet_to_v">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://example.com/images/ast-and-babel-and-dependencies/01.png">
+<meta property="og:image" content="http://example.com/images/ast-and-babel-and-dependencies/02.png">
+<meta property="og:image" content="http://example.com/images/ast-and-babel-and-dependencies/03.png">
+<meta property="og:image" content="http://example.com/images/ast-and-babel-and-dependencies/04.png">
+<meta property="og:image" content="http://example.com/images/ast-and-babel-and-dependencies/05.png">
+<meta property="og:image" content="http://example.com/images/ast-and-babel-and-dependencies/06.png">
+<meta property="og:image" content="http://example.com/images/ast-and-babel-and-dependencies/07.png">
+<meta property="og:image" content="http://example.com/images/ast-and-babel-and-dependencies/08.png">
+<meta property="og:image" content="http://example.com/images/ast-and-babel-and-dependencies/09.png">
+<meta property="article:published_time" content="2022-03-15T00:00:00.000Z">
+<meta property="article:modified_time" content="2023-09-27T01:43:16.471Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="AST">
+<meta property="article:tag" content="Babel">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/ast-and-babel-and-dependencies/01.png">
+  
+  
+
+  <!-- feed -->
+  
+
+  
+    
+<link rel="stylesheet" href="/css/main.css">
+
+  
+
+  
+
+  
+
+  
+
+
+  
+    
+      <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-screen-webfont@1.1.0/style.css" />
+    
+  
+</head>
+
+<body>
+  
+
+
+
+
+  <div class='l_body' id='start'>
+    <aside class='l_left' layout='post'>
+    
+
+  
+
+<header class="header"><div class="logo-wrap"><a class="avatar" href="/about/"><div class="bg" style="opacity:0;background-image:url(https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/avatar/round/rainbow64@3x.webp);"></div><img no-lazy class="avatar" src="/images/avatar.jpg" onerror="javascript:this.classList.add('error');this.src='https://gcore.jsdelivr.net/gh/cdn-x/placeholder@1.0.4/image/2659360.svg';"></a><a class="title" href="/"><div class="main" ff="title">ClariS</div><div class="sub normal cap">标题1</div><div class="sub hover cap" style="opacity:0"> 标题2</div></a></div>
+
+<nav class="menu dis-select"><a class="nav-item active" href="/">文章</a><a class="nav-item" href="/chat/">留言</a><a class="nav-item" href="/friends/">朋友们</a><a class="nav-item" href="/about/">关于</a></nav>
+</header>
+
+
+<div class="widgets">
+<widget class="widget-wrapper search"><div class="widget-body"><div class="search-wrapper" id="search"><form class="search-form"><input type="text" class="search-input" id="search-input" data-filter="/blog/" placeholder="文章搜索"><svg t="1670596976048" class="icon search-icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="2676" width="200" height="200"><path d="M938.2 832.6L723.8 618.1c-2.5-2.5-5.3-4.4-7.9-6.4 36.2-55.6 57.3-121.8 57.3-193.1C773.3 222.8 614.6 64 418.7 64S64 222.8 64 418.6c0 195.9 158.8 354.6 354.6 354.6 71.3 0 137.5-21.2 193.2-57.4 2 2.7 3.9 5.4 6.3 7.8L832.5 938c14.6 14.6 33.7 21.9 52.8 21.9 19.1 0 38.2-7.3 52.8-21.8 29.2-29.1 29.2-76.4 0.1-105.5M418.7 661.3C284.9 661.3 176 552.4 176 418.6 176 284.9 284.9 176 418.7 176c133.8 0 242.6 108.9 242.6 242.7 0 133.7-108.9 242.6-242.6 242.6" p-id="2677"></path></svg></form><div id="search-result"></div><div class="search-no-result">没有找到内容！</div></div></div></widget>
+
+
+<widget class="widget-wrapper toc single" id="data-toc"><div class="widget-header cap dis-select"><span class="name">AST、Babel、依赖</span></div><div class="widget-body fs14"><div class="doc-tree active"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Babel"><span class="toc-text">Babel</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Babel-%E7%9A%84%E5%8E%9F%E7%90%86"><span class="toc-text">Babel 的原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84%E7%A4%BA%E4%BE%8B%EF%BC%9A%E6%89%8B%E5%8A%A8%E6%8A%8A-let-%E5%8F%98%E6%88%90-var"><span class="toc-text">一个简单的示例：手动把 let 变成 var</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E5%BF%85%E9%A1%BB%E8%A6%81%E7%94%A8-AST"><span class="toc-text">为什么必须要用 AST</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%8A%A8%E6%8A%8A%E4%BB%A3%E7%A0%81%E8%BD%AC%E4%B8%BA-ES5"><span class="toc-text">自动把代码转为 ES5</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E4%B8%8D%E5%BA%94%E8%AF%A5%E6%98%AF%E5%AD%97%E7%AC%A6%E4%B8%B2%EF%BC%8C%E8%80%8C%E6%98%AF%E5%BA%94%E8%AF%A5%E6%94%BE%E5%88%B0%E6%96%87%E4%BB%B6%E4%B8%AD"><span class="toc-text">代码不应该是字符串，而是应该放到文件中</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Babel-%E9%99%A4%E4%BA%86%E8%BD%AC%E6%8D%A2-JS-%E8%AF%AD%E6%B3%95%EF%BC%8C%E8%BF%98%E8%83%BD%E5%81%9A%E5%95%A5%EF%BC%9F"><span class="toc-text">Babel 除了转换 JS 语法，还能做啥？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%87%E7%BA%A7%EF%BC%9A%E4%BE%9D%E8%B5%96%E7%9A%84%E4%BE%9D%E8%B5%96"><span class="toc-text">升级：依赖的依赖</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%89%E5%B1%82%E4%BE%9D%E8%B5%96%E5%85%B3%E7%B3%BB"><span class="toc-text">三层依赖关系</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-text">思路</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%99-collect-%E5%8A%A0%E9%80%92%E5%BD%92"><span class="toc-text">给 collect 加递归</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E7%94%A8%E9%80%92%E5%BD%92%E6%9D%A5%E8%8E%B7%E5%8F%96%E5%B5%8C%E5%A5%97%E4%BE%9D%E8%B5%96"><span class="toc-text">用递归来获取嵌套依赖</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%86%8D%E5%A4%8D%E6%9D%82%E4%B8%80%E7%82%B9%EF%BC%9A%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96"><span class="toc-text">再复杂一点：循环依赖</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8D%E8%83%BD%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96%E5%90%97%EF%BC%9F"><span class="toc-text">不能循环依赖吗？</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E9%81%BF%E5%85%8D%E9%87%8D%E5%A4%8D%E8%BF%9B%E5%85%A5%E5%90%8C%E4%B8%80%E4%B8%AA%E6%96%87%E4%BB%B6"><span class="toc-text">避免重复进入同一个文件</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%89%A7%E8%A1%8C-index-js"><span class="toc-text">执行 index.js</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E7%BB%93%E8%AE%BA"><span class="toc-text">结论</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%90%88%E6%B3%95%E7%9A%84%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96%EF%BC%88%E6%B2%A1%E6%9C%89%E9%80%BB%E8%BE%91%E6%BC%8F%E6%B4%9E%EF%BC%89"><span class="toc-text">合法的循环依赖（没有逻辑漏洞）</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-text">总结</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#AST-%E7%9B%B8%E5%85%B3"><span class="toc-text">AST 相关</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7"><span class="toc-text">工具</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BB%A3%E7%A0%81%E6%8A%80%E5%B7%A7"><span class="toc-text">代码技巧</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BE%AA%E7%8E%AF%E4%BE%9D%E8%B5%96"><span class="toc-text">循环依赖</span></a></li></ol></li></ol></div></div></widget>
+
+
+
+
+</div>
+
+
+    </aside>
+    <div class='l_main'>
+      
+
+      
+
+
+
+<div class="bread-nav fs12"><div id="breadcrumb"><a class="cap breadcrumb" href="/">主页</a><span class="sep"></span><a class="cap breadcrumb" href="/">文章</a><span class="sep"></span><a class="cap breadcrumb-link" href="/categories/%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">学习笔记</a></div><div id="post-meta">发布于&nbsp;<time datetime="2022-03-15T00:00:00.000Z">2022-03-15</time></div></div>
+
+<article class='md-text content post'>
+<h1 class="article-title"><span>AST、Babel、依赖</span></h1>
+<h2 id="Babel"><a href="#Babel" class="headerlink" title="Babel"></a>Babel</h2><h3 id="Babel-的原理"><a href="#Babel-的原理" class="headerlink" title="Babel 的原理"></a>Babel 的原理</h3><p>Babel 转换 JS 代码可以分成以下三个大步骤：</p>
+<ol>
+<li><code>parse</code>: 把代码 code 变成 AST</li>
+<li><code>traverse</code>: 遍历 AST 进行修改</li>
+<li><code>generate</code>: 把 AST 变成代码 code2</li>
+</ol>
+<p>即，<code>code --(1)-&gt; ast --(2)-&gt; ast2 --(3)-&gt; code2</code></p>
+<h3 id="一个简单的示例：手动把-let-变成-var"><a href="#一个简单的示例：手动把-let-变成-var" class="headerlink" title="一个简单的示例：手动把 let 变成 var"></a>一个简单的示例：手动把 let 变成 var</h3><p><code>let_to_var.ts</code> 将 code 中的 let 全部变成 var</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123; parse &#125; <span class="keyword">from</span> <span class="string">&quot;@babel/parser&quot;</span></span><br><span class="line"><span class="keyword">import</span> traverse <span class="keyword">from</span> <span class="string">&quot;@babel/traverse&quot;</span></span><br><span class="line"><span class="keyword">import</span> generate <span class="keyword">from</span> <span class="string">&quot;@babel/generator&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> code = <span class="string">`let a = &#x27;let&#x27;; let b = 2`</span></span><br><span class="line"><span class="keyword">const</span> ast = <span class="title function_">parse</span>(code, &#123; <span class="attr">sourceType</span>: <span class="string">&#x27;module&#x27;</span> &#125;)</span><br><span class="line"><span class="title function_">traverse</span>(ast, &#123;</span><br><span class="line">  <span class="attr">enter</span>: <span class="function"><span class="params">item</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">if</span>(item.<span class="property">node</span>.<span class="property">type</span> === <span class="string">&#x27;VariableDeclaration&#x27;</span>)&#123;</span><br><span class="line">      <span class="keyword">if</span>(item.<span class="property">node</span>.<span class="property">kind</span> === <span class="string">&#x27;let&#x27;</span>)&#123;</span><br><span class="line">        item.<span class="property">node</span>.<span class="property">kind</span> = <span class="string">&#x27;var&#x27;</span></span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;)</span><br><span class="line"><span class="keyword">const</span> result = <span class="title function_">generate</span>(ast, &#123;&#125;, code)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(result.<span class="property">code</span>)</span><br></pre></td></tr></table></figure>
+
+<p>执行命令 <code>node -r ts-node/register let_to_var.ts</code>，结果如下：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/ast-and-babel-and-dependencies/01.png" alt="运行结果" fancybox="true"/></div><div class="image-meta"><span class="image-caption center">运行结果</span></div></div>
+
+<p>如果你想用 Chrome 查看 AST，可以添加 <code>--inspect-brk</code> 选项，<code>node -r ts-node/register --inspect-brk let_to_var.ts</code>。</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/ast-and-babel-and-dependencies/02.png" fancybox="true"/></div></div>
+
+<h3 id="为什么必须要用-AST"><a href="#为什么必须要用-AST" class="headerlink" title="为什么必须要用 AST"></a>为什么必须要用 AST</h3><blockquote>
+<p>为什么必须要用 AST 来做一层转换，直接将 code 字符串中的 let 替换为 var 不就行了吗？</p>
+</blockquote>
+<ul>
+<li>你很难用正则表达式来替换，正则很容易把<code>let a = &#39;let&#39;</code>变成<code>var a = &#39;var&#39;</code></li>
+<li>你需要识别每个单词的意思，才能做到只修改用于声明变量的 let</li>
+<li>而 AST 能明确地告诉你每个 let 的意思</li>
+</ul>
+<h3 id="自动把代码转为-ES5"><a href="#自动把代码转为-ES5" class="headerlink" title="自动把代码转为 ES5"></a>自动把代码转为 ES5</h3><p>上面的例子中，我们是手动的把 code 中的 <code>let</code> 转换为了 <code>var</code>，如何将这一操作自动化呢？</p>
+<p>使用 <code>@babel/core</code> 和 <code>@babel/preset-env</code> 即可</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// to_es5.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; parse &#125; <span class="keyword">from</span> <span class="string">&quot;@babel/parser&quot;</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> babel <span class="keyword">from</span> <span class="string">&quot;@babel/core&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> code = <span class="string">`let a = &#x27;let&#x27;;let b = 2; const c = 3`</span></span><br><span class="line"><span class="keyword">const</span> ast = <span class="title function_">parse</span>(code, &#123; <span class="attr">sourceType</span>: <span class="string">&#x27;module&#x27;</span> &#125;)</span><br><span class="line"><span class="comment">// `babel.transformFromAstSync` 可以把 AST 变成 code2</span></span><br><span class="line"><span class="keyword">const</span> result1 = babel.<span class="title function_">transformFromAstSync</span>(ast, code, &#123;</span><br><span class="line">  <span class="attr">presets</span>: [<span class="string">&#x27;@babel/preset-env&#x27;</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;\nresult1.code\n&#x27;</span>, result1.<span class="property">code</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 如果图方便，可以用 babel.transformSync 直接把 code 变成 code2</span></span><br><span class="line"><span class="keyword">const</span> result2 = babel.<span class="title function_">transformSync</span>(code, &#123;</span><br><span class="line">  <span class="attr">presets</span>: [<span class="string">&#x27;@babel/preset-env&#x27;</span>]</span><br><span class="line">&#125;)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;\nresult2.code\n&#x27;</span>, result2.<span class="property">code</span>)</span><br></pre></td></tr></table></figure>
+
+<p>运行结果如下：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/ast-and-babel-and-dependencies/03.png" alt="运行结果" fancybox="true"/></div><div class="image-meta"><span class="image-caption center">运行结果</span></div></div>
+
+<blockquote>
+<p><code>@babel/preset-env</code> 内置了很多转换规则，比如把所有 ES6+ 代码转换为 ES5 代码的规则</p>
+</blockquote>
+<h3 id="代码不应该是字符串，而是应该放到文件中"><a href="#代码不应该是字符串，而是应该放到文件中" class="headerlink" title="代码不应该是字符串，而是应该放到文件中"></a>代码不应该是字符串，而是应该放到文件中</h3><p>上面的例子都是以字符串的形式，而在我们平时的开发中，代码都是分散在一个个的文件中的，此时就需要我们引入 Node 的文件模块。</p>
+<p>在根目录下创建 test.js 文件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test.js</span></span><br><span class="line"><span class="keyword">let</span> a = <span class="string">&#x27;let&#x27;</span></span><br><span class="line"><span class="keyword">let</span> b = <span class="number">2</span></span><br><span class="line"><span class="keyword">const</span> c = <span class="number">3</span></span><br></pre></td></tr></table></figure>
+<p>创建 file_to_es5.ts 文件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// file_to_es5.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; parse &#125; <span class="keyword">from</span> <span class="string">&quot;@babel/parser&quot;</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> babel <span class="keyword">from</span> <span class="string">&quot;@babel/core&quot;</span></span><br><span class="line"><span class="keyword">import</span> * <span class="keyword">as</span> fs <span class="keyword">from</span> <span class="string">&#x27;fs&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">const</span> code = fs.<span class="title function_">readFileSync</span>(<span class="string">&#x27;./test.js&#x27;</span>).<span class="title function_">toString</span>()</span><br><span class="line"><span class="keyword">const</span> ast = <span class="title function_">parse</span>(code, &#123; <span class="attr">sourceType</span>: <span class="string">&#x27;module&#x27;</span> &#125;)</span><br><span class="line"><span class="keyword">const</span> result = babel.<span class="title function_">transformFromAstSync</span>(ast, code, &#123;</span><br><span class="line">  <span class="attr">presets</span>: [<span class="string">&#x27;@babel/preset-env&#x27;</span>]</span><br><span class="line">&#125;)</span><br><span class="line">fs.<span class="title function_">writeFileSync</span>(<span class="string">&#x27;./test.es5.js&#x27;</span>, result.<span class="property">code</span>)</span><br></pre></td></tr></table></figure>
+
+<p>执行 <code>node -r ts-node/register file_to_es5.ts</code>，就会得到 <code>test.es5.js</code> 文件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// test.es5.js</span></span><br><span class="line"><span class="meta">&quot;use strict&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> a = <span class="string">&#x27;let&#x27;</span>;</span><br><span class="line"><span class="keyword">var</span> b = <span class="number">2</span>;</span><br><span class="line"><span class="keyword">var</span> c = <span class="number">3</span>;</span><br></pre></td></tr></table></figure>
+
+<blockquote>
+<p>如何把 .&#x2F;test.js 改为任意文件？</p>
+</blockquote>
+<h3 id="Babel-除了转换-JS-语法，还能做啥？"><a href="#Babel-除了转换-JS-语法，还能做啥？" class="headerlink" title="Babel 除了转换 JS 语法，还能做啥？"></a>Babel 除了转换 JS 语法，还能做啥？</h3><p>还可以用来分析 JS 文件的依赖关系（即答）</p>
+<p>创建一个 project_1 目录，project_1 目录中有三个 JS 文件</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// project_1/a.js</span></span><br><span class="line"><span class="keyword">const</span> a = &#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="number">1</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> a</span><br><span class="line"></span><br><span class="line"><span class="comment">// project_1/b.js</span></span><br><span class="line"><span class="keyword">const</span> b = &#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="number">2</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> b</span><br><span class="line"></span><br><span class="line"><span class="comment">// project_1/index.js</span></span><br><span class="line"><span class="keyword">import</span> a <span class="keyword">from</span> <span class="string">&#x27;./a.js&#x27;</span></span><br><span class="line"><span class="keyword">import</span> b <span class="keyword">from</span> <span class="string">&#x27;./b.js&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a.<span class="property">value</span> + b.<span class="property">value</span>)</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight ts"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// deps_1.ts</span></span><br><span class="line"><span class="keyword">import</span> &#123; parse &#125; <span class="keyword">from</span> <span class="string">&quot;@babel/parser&quot;</span></span><br><span class="line"><span class="keyword">import</span> traverse <span class="keyword">from</span> <span class="string">&quot;@babel/traverse&quot;</span></span><br><span class="line"><span class="keyword">import</span> &#123; readFileSync &#125; <span class="keyword">from</span> <span class="string">&#x27;fs&#x27;</span></span><br><span class="line"><span class="keyword">import</span> &#123; resolve, relative, dirname &#125; <span class="keyword">from</span> <span class="string">&#x27;path&#x27;</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 设置根目录</span></span><br><span class="line"><span class="keyword">const</span> projectRoot = <span class="title function_">resolve</span>(__dirname, <span class="string">&#x27;project_1&#x27;</span>)</span><br><span class="line"><span class="comment">// 类型声明</span></span><br><span class="line"><span class="keyword">type</span> <span class="title class_">DepRelation</span> = &#123; [<span class="attr">key</span>: <span class="built_in">string</span>]: &#123; <span class="attr">deps</span>: <span class="built_in">string</span>[], <span class="attr">code</span>: <span class="built_in">string</span> &#125; &#125;</span><br><span class="line"><span class="comment">// 初始化一个空的 depRelation，用于收集依赖</span></span><br><span class="line"><span class="keyword">const</span> <span class="attr">depRelation</span>: <span class="title class_">DepRelation</span> = &#123;&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 将入口文件的绝对路径传入函数，如 D:\demo\fixture_1\index.js</span></span><br><span class="line"><span class="title function_">collectCodeAndDeps</span>(<span class="title function_">resolve</span>(projectRoot, <span class="string">&#x27;index.js&#x27;</span>))</span><br><span class="line"></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(depRelation)</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(<span class="string">&#x27;done&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">collectCodeAndDeps</span>(<span class="params">filepath: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  <span class="keyword">const</span> key = <span class="title function_">getProjectPath</span>(filepath) <span class="comment">// 文件的项目路径，如 index.js</span></span><br><span class="line">  <span class="comment">// 获取文件内容，将内容放至 depRelation</span></span><br><span class="line">  <span class="keyword">const</span> code = <span class="title function_">readFileSync</span>(filepath).<span class="title function_">toString</span>()</span><br><span class="line">  <span class="comment">// 初始化 depRelation[key]</span></span><br><span class="line">  depRelation[key] = &#123; <span class="attr">deps</span>: [], <span class="attr">code</span>: code &#125;</span><br><span class="line">  <span class="comment">// 将代码转为 AST</span></span><br><span class="line">  <span class="keyword">const</span> ast = <span class="title function_">parse</span>(code, &#123; <span class="attr">sourceType</span>: <span class="string">&#x27;module&#x27;</span> &#125;) </span><br><span class="line">  <span class="comment">// 分析文件依赖，将内容放至 depRelation</span></span><br><span class="line">  <span class="title function_">traverse</span>(ast, &#123;</span><br><span class="line">    <span class="attr">enter</span>: <span class="function"><span class="params">path</span> =&gt;</span> &#123;</span><br><span class="line">      <span class="keyword">if</span> (path.<span class="property">node</span>.<span class="property">type</span> === <span class="string">&#x27;ImportDeclaration&#x27;</span>) &#123;</span><br><span class="line">        <span class="comment">// path.node.source.value 往往是一个相对路径，如 ./a.js，需要先把它转为一个绝对路径</span></span><br><span class="line">        <span class="keyword">const</span> depAbsolutePath = <span class="title function_">resolve</span>(<span class="title function_">dirname</span>(filepath), path.<span class="property">node</span>.<span class="property">source</span>.<span class="property">value</span>)</span><br><span class="line">        <span class="comment">// 然后转为项目路径</span></span><br><span class="line">        <span class="keyword">const</span> depProjectPath = <span class="title function_">getProjectPath</span>(depAbsolutePath)</span><br><span class="line">        <span class="comment">// 把依赖写进 depRelation</span></span><br><span class="line">        depRelation[key].<span class="property">deps</span>.<span class="title function_">push</span>(depProjectPath)</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;)</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 获取文件相对于根目录的相对路径</span></span><br><span class="line"><span class="keyword">function</span> <span class="title function_">getProjectPath</span>(<span class="params">path: <span class="built_in">string</span></span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="title function_">relative</span>(projectRoot, path).<span class="title function_">replace</span>(<span class="regexp">/\\/g</span>, <span class="string">&#x27;/&#x27;</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行结果如下：</p>
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/ast-and-babel-and-dependencies/04.png" alt="运行结果" fancybox="true"/></div><div class="image-meta"><span class="image-caption center">运行结果</span></div></div>
+
+<p><code>deps_1.ts</code> 的思路</p>
+<ol>
+<li>调用 <code>collectCodeAndDeps(&#39;index.js&#39;)</code>，代码中会有更多细节</li>
+<li>先把 <code>depRelation[&#39;index.js&#39;]</code> 初始化为 <code>&#123; deps: [], code: &#39;index.js的源码&#39; &#125;</code></li>
+<li>然后把 <code>index.js</code> 源码 code 变成 AST</li>
+<li>遍历 AST，看看 import 了哪些依赖，假设依赖了 a.js 和 b.js</li>
+<li>把 a.js 和 b.js 写到 <code>depRelation[&#39;index.js&#39;].deps</code> 里</li>
+<li>最终得到的 depRelation 就收集了 index.js 的依赖</li>
+</ol>
+<blockquote>
+<p>启发：用<strong>哈希表</strong>来存储文件依赖；哈希表是数据结构中的术语，在 JS 中一个对象就可以看作一个哈希表；这是计数排序的基本操作</p>
+</blockquote>
+<h3 id="升级：依赖的依赖"><a href="#升级：依赖的依赖" class="headerlink" title="升级：依赖的依赖"></a>升级：依赖的依赖</h3><p>如何处理更深层的嵌套关系？</p>
+<h4 id="三层依赖关系"><a href="#三层依赖关系" class="headerlink" title="三层依赖关系"></a>三层依赖关系</h4><ul>
+<li>index -&gt; a -&gt; dir&#x2F;a2 -&gt; dir&#x2F;dir_in_dir&#x2F;a3</li>
+<li>index -&gt; b -&gt; dir&#x2F;b2 -&gt; dir&#x2F;dir_in_dir&#x2F;b3</li>
+<li>文件我已经创建好了，放在 project_2 目录里了</li>
+</ul>
+<h4 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h4><ul>
+<li>collectCodeAndDeps 太长了，缩写为 collect</li>
+<li>调用 collect(‘index.js’)</li>
+<li>发现依赖 ‘.&#x2F;a.js’ 于是调用 collect(‘a.js’)</li>
+<li>发现依赖 ‘.&#x2F;dir&#x2F;a2.js’ 于是调用 collect(‘dir&#x2F;a2.js’)</li>
+<li>发现依赖 ‘.&#x2F;dir_in_dir&#x2F;a3.js’ 于是调用 collect(‘dir&#x2F;dir_in_dir&#x2F;a3.js’)</li>
+<li>没有更多依赖了，a.js 这条线结束，发现下一个依赖 ‘.&#x2F;b.js’</li>
+<li>以此类推，其实就是递归</li>
+</ul>
+<h4 id="给-collect-加递归"><a href="#给-collect-加递归" class="headerlink" title="给 collect 加递归"></a>给 collect 加递归</h4><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/ast-and-babel-and-dependencies/05.png" fancybox="true"/></div></div>
+
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/ast-and-babel-and-dependencies/06.png" alt="执行结果" fancybox="true"/></div><div class="image-meta"><span class="image-caption center">执行结果</span></div></div>
+
+
+<h3 id="用递归来获取嵌套依赖"><a href="#用递归来获取嵌套依赖" class="headerlink" title="用递归来获取嵌套依赖"></a>用递归来获取嵌套依赖</h3><blockquote>
+<p>递归存在 call stack 溢出的风险，比如嵌套层数超过 20000 时，程序直接报错</p>
+</blockquote>
+<h4 id="再复杂一点：循环依赖"><a href="#再复杂一点：循环依赖" class="headerlink" title="再复杂一点：循环依赖"></a>再复杂一点：循环依赖</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// project_3/a.js</span></span><br><span class="line"><span class="keyword">import</span> b <span class="keyword">from</span> <span class="string">&#x27;./b.js&#x27;</span></span><br><span class="line"><span class="keyword">const</span> a = &#123;</span><br><span class="line">  <span class="attr">value</span>: b.<span class="property">value</span> + <span class="number">1</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> a</span><br><span class="line"></span><br><span class="line"><span class="comment">// project_3/b.js</span></span><br><span class="line"><span class="keyword">import</span> a <span class="keyword">from</span> <span class="string">&#x27;./a.js&#x27;</span></span><br><span class="line"><span class="keyword">const</span> b = &#123;</span><br><span class="line">  <span class="attr">value</span>: a.<span class="property">value</span> + <span class="number">1</span>,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> b</span><br><span class="line"></span><br><span class="line"><span class="comment">// project_3/index.js</span></span><br><span class="line"><span class="keyword">import</span> a <span class="keyword">from</span> <span class="string">&#x27;./a.js&#x27;</span></span><br><span class="line"><span class="keyword">import</span> b <span class="keyword">from</span> <span class="string">&#x27;./b.js&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a.<span class="property">value</span> + b.<span class="property">value</span>)</span><br></pre></td></tr></table></figure>
+
+<p>依赖关系（project_3）</p>
+<ul>
+<li>index -&gt; a -&gt; b</li>
+<li>index -&gt; b -&gt; a</li>
+</ul>
+<p>求值</p>
+<ul>
+<li>a.value &#x3D; b.value + 1</li>
+<li>b.value &#x3D; a.value + 1</li>
+</ul>
+<p>运行代码</p>
+<ul>
+<li>node -r ts-node&#x2F;register deps_3.ts</li>
+<li>报错：调用栈 溢出了</li>
+<li>为什么：分析过程 a -&gt; b -&gt; a -&gt; b -&gt; a -&gt; b -&gt; … 把调用栈撑满了</li>
+</ul>
+<h3 id="不能循环依赖吗？"><a href="#不能循环依赖吗？" class="headerlink" title="不能循环依赖吗？"></a>不能循环依赖吗？</h3><p>并不，我们需要一些小技巧</p>
+<h4 id="避免重复进入同一个文件"><a href="#避免重复进入同一个文件" class="headerlink" title="避免重复进入同一个文件"></a>避免重复进入同一个文件</h4><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/ast-and-babel-and-dependencies/07.png" fancybox="true"/></div></div>
+
+<p>思路：</p>
+<ul>
+<li>一旦发现这个 key 已经在 keys 里了，就 return</li>
+<li>这样分析过程就不是 a -&gt; b -&gt; a -&gt; b -&gt; … 而是 a -&gt; b -&gt; return</li>
+<li>注意我们<strong>只需要分析依赖，不需要执行代码</strong>，所以这样是可行的</li>
+<li>由于我们的分析不需要执行代码，所以叫做<strong>静态分析</strong></li>
+<li>但如果我们<strong>执行代码</strong>，就会发现还是出现了循环</li>
+</ul>
+<h4 id="执行-index-js"><a href="#执行-index-js" class="headerlink" title="执行 index.js"></a>执行 index.js</h4><div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/ast-and-babel-and-dependencies/08.png" fancybox="true"/></div></div>
+
+<ul>
+<li>发现报错：不能在 ‘a’ 初始化之前访问 a</li>
+<li>原因：执行过程 a -&gt; b -&gt; a 此处报错，因为 node 发现计算 a 的时候又要计算 a</li>
+</ul>
+<h4 id="结论"><a href="#结论" class="headerlink" title="结论"></a>结论</h4><p>模块间可以循环依赖</p>
+<ul>
+<li>a 依赖 b，b 依赖 a</li>
+<li>a 依赖 b，b 依赖 c，c 依赖 a</li>
+</ul>
+<p>但不能有逻辑漏洞</p>
+<ul>
+<li>a.value &#x3D; b.value + 1</li>
+<li>b.value &#x3D; a.value + 1</li>
+</ul>
+<p>那能不能写出一个没有逻辑漏洞的循环依赖？当然可以。</p>
+<h4 id="合法的循环依赖（没有逻辑漏洞）"><a href="#合法的循环依赖（没有逻辑漏洞）" class="headerlink" title="合法的循环依赖（没有逻辑漏洞）"></a>合法的循环依赖（没有逻辑漏洞）</h4><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// project_5/a.js</span></span><br><span class="line"><span class="keyword">import</span> b <span class="keyword">from</span> <span class="string">&#x27;./b.js&#x27;</span></span><br><span class="line"><span class="keyword">const</span> a = &#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="string">&#x27;a&#x27;</span>,</span><br><span class="line">  <span class="attr">getB</span>: <span class="function">() =&gt;</span> b.<span class="property">value</span> + <span class="string">&#x27; from a.js&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> a</span><br><span class="line"></span><br><span class="line"><span class="comment">// project_5/b.js</span></span><br><span class="line"><span class="keyword">import</span> a <span class="keyword">from</span> <span class="string">&#x27;./a.js&#x27;</span></span><br><span class="line"><span class="keyword">const</span> b = &#123;</span><br><span class="line">  <span class="attr">value</span>: <span class="string">&#x27;b&#x27;</span>,</span><br><span class="line">  <span class="attr">getA</span>: <span class="function">() =&gt;</span> a.<span class="property">value</span> + <span class="string">&#x27; from b.js&#x27;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">export</span> <span class="keyword">default</span> b</span><br><span class="line"></span><br><span class="line"><span class="comment">// project_5/index.js</span></span><br><span class="line"><span class="keyword">import</span> a <span class="keyword">from</span> <span class="string">&#x27;./a.js&#x27;</span></span><br><span class="line"><span class="keyword">import</span> b <span class="keyword">from</span> <span class="string">&#x27;./b.js&#x27;</span></span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(a.<span class="title function_">getB</span>())</span><br><span class="line"><span class="variable language_">console</span>.<span class="title function_">log</span>(b.<span class="title function_">getA</span>())</span><br></pre></td></tr></table></figure>
+
+<div class="tag-plugin image"><div class="image-bg"><img class="lazy" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAABGdBTUEAALGPC/xhBQAAADhlWElmTU0AKgAAAAgAAYdpAAQAAAABAAAAGgAAAAAAAqACAAQAAAABAAAAAaADAAQAAAABAAAAAQAAAADa6r/EAAAAC0lEQVQIHWNgAAIAAAUAAY27m/MAAAAASUVORK5CYII=" data-src="/images/ast-and-babel-and-dependencies/09.png" alt="运行 index.js" fancybox="true"/></div><div class="image-meta"><span class="image-caption center">运行 index.js</span></div></div>
+
+<p>有的循环依赖有问题，有的循环依赖没有问题；所以最好别用循环依赖，以防万一</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><h3 id="AST-相关"><a href="#AST-相关" class="headerlink" title="AST 相关"></a>AST 相关</h3><ul>
+<li>parse: 把代码 code 变成 AST</li>
+<li>traverse: 遍历 AST 进行修改</li>
+<li>generate: 把 AST 变成代码 code2</li>
+</ul>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ul>
+<li>babel 可以把高级代码翻译为 ES5</li>
+<li>@babel&#x2F;parser</li>
+<li>@babel&#x2F;traverse</li>
+<li>@babel&#x2F;generator</li>
+<li>@babel&#x2F;core 包含前三者</li>
+<li>@babel&#x2F;preset-env 内置很多规则</li>
+</ul>
+<h3 id="代码技巧"><a href="#代码技巧" class="headerlink" title="代码技巧"></a>代码技巧</h3><ul>
+<li>使用哈希表来存储数据</li>
+<li>通过检测 key 来避免重复</li>
+</ul>
+<h3 id="循环依赖"><a href="#循环依赖" class="headerlink" title="循环依赖"></a>循环依赖</h3><ul>
+<li>有的循环依赖可以正常执行</li>
+<li>有的循环依赖不可以</li>
+<li>但都可以做静态分析</li>
+</ul>
+
+
+<div class="article-footer reveal fs14"><section id="license"><div class="header"><span>许可协议</span></div><div class="body"><p>本文采用 <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">署名-非商业性使用-相同方式共享 4.0 国际</a> 许可协议，转载请注明出处。</p>
+</div></section></div>
+
+</article>
+
+<div class="related-wrap reveal" id="read-next"><section class="body"><div class="item" id="prev"><div class="note">较新文章</div><a href="/2022/09/07/typescript/ts-1/">TypeScript 的运行与调试</a></div><div class="item" id="next"><div class="note">较早文章</div><a href="/2021/08/20/dns-and-tcp/">DNS 与 TCP</a></div></section></div>
+
+
+
+
+
+
+
+
+      
+<footer class="page-footer reveal fs12"><hr><div class="text"><center>
+  <span id="runtime_span"></span>
+  <span class="my-face">(●'◡'●)ﾉ♥</span>
+  <script type="text/javascript">
+    function show_runtime() {
+      window.setTimeout('show_runtime()', 1000);
+      X = Date.UTC(2021, 01, 26, 17, 36, 35);
+      Y = new Date().getTime();
+      T = Y - X;
+      M = 24 * 60 * 60 * 1000;
+      a = T / M;
+      A = Math.floor(a);
+      b = (a - A) * 24;
+      B = Math.floor(b);
+      c = (b - B) * 60;
+      C = Math.floor((b - B) * 60);
+      D = Math.floor((c - C) * 60);
+      runtime_span.innerHTML =
+        '⏱️博客已运行 ' + A + '天' + B + '小时' + C + '分' + D + '秒';
+    }
+    show_runtime();
+  </script>
+  <style>
+    .my-face {
+      color: pink;
+      animation: my-face 5s infinite ease-in-out;
+      display: inline-block;
+      margin: 0 5px;
+    }
+    @keyframes my-face {
+      2% {
+        transform: translate(0, 1.5px) rotate(1.5deg);
+      }
+      4% {
+        transform: translate(0, -1.5px) rotate(-0.5deg);
+      }
+      6% {
+        transform: translate(0, 1.5px) rotate(-1.5deg);
+      }
+      8% {
+        transform: translate(0, -1.5px) rotate(-1.5deg);
+      }
+      10% {
+        transform: translate(0, 2.5px) rotate(1.5deg);
+      }
+      12% {
+        transform: translate(0, -0.5px) rotate(1.5deg);
+      }
+      14% {
+        transform: translate(0, -1.5px) rotate(1.5deg);
+      }
+      16% {
+        transform: translate(0, -0.5px) rotate(-1.5deg);
+      }
+      18% {
+        transform: translate(0, 0.5px) rotate(-1.5deg);
+      }
+      20% {
+        transform: translate(0, -1.5px) rotate(2.5deg);
+      }
+      22% {
+        transform: translate(0, 0.5px) rotate(-1.5deg);
+      }
+      24% {
+        transform: translate(0, 1.5px) rotate(1.5deg);
+      }
+      26% {
+        transform: translate(0, 0.5px) rotate(0.5deg);
+      }
+      28% {
+        transform: translate(0, 0.5px) rotate(1.5deg);
+      }
+      30% {
+        transform: translate(0, -0.5px) rotate(2.5deg);
+      }
+      32% {
+        transform: translate(0, 1.5px) rotate(-0.5deg);
+      }
+      34% {
+        transform: translate(0, 1.5px) rotate(-0.5deg);
+      }
+      36% {
+        transform: translate(0, -1.5px) rotate(2.5deg);
+      }
+      38% {
+        transform: translate(0, 1.5px) rotate(-1.5deg);
+      }
+      40% {
+        transform: translate(0, -0.5px) rotate(2.5deg);
+      }
+      42% {
+        transform: translate(0, 2.5px) rotate(-1.5deg);
+      }
+      44% {
+        transform: translate(0, 1.5px) rotate(0.5deg);
+      }
+      46% {
+        transform: translate(0, -1.5px) rotate(2.5deg);
+      }
+      48% {
+        transform: translate(0, -0.5px) rotate(0.5deg);
+      }
+      50% {
+        transform: translate(0, 0.5px) rotate(0.5deg);
+      }
+      52% {
+        transform: translate(0, 2.5px) rotate(2.5deg);
+      }
+      54% {
+        transform: translate(0, -1.5px) rotate(1.5deg);
+      }
+      56% {
+        transform: translate(0, 2.5px) rotate(2.5deg);
+      }
+      58% {
+        transform: translate(0, 0.5px) rotate(2.5deg);
+      }
+      60% {
+        transform: translate(0, 2.5px) rotate(2.5deg);
+      }
+      62% {
+        transform: translate(0, -0.5px) rotate(2.5deg);
+      }
+      64% {
+        transform: translate(0, -0.5px) rotate(1.5deg);
+      }
+      66% {
+        transform: translate(0, 1.5px) rotate(-0.5deg);
+      }
+      68% {
+        transform: translate(0, -1.5px) rotate(-0.5deg);
+      }
+      70% {
+        transform: translate(0, 1.5px) rotate(0.5deg);
+      }
+      72% {
+        transform: translate(0, 2.5px) rotate(1.5deg);
+      }
+      74% {
+        transform: translate(0, -0.5px) rotate(0.5deg);
+      }
+      76% {
+        transform: translate(0, -0.5px) rotate(2.5deg);
+      }
+      78% {
+        transform: translate(0, -0.5px) rotate(1.5deg);
+      }
+      80% {
+        transform: translate(0, 1.5px) rotate(1.5deg);
+      }
+      82% {
+        transform: translate(0, -0.5px) rotate(0.5deg);
+      }
+      84% {
+        transform: translate(0, 1.5px) rotate(2.5deg);
+      }
+      86% {
+        transform: translate(0, -1.5px) rotate(-1.5deg);
+      }
+      88% {
+        transform: translate(0, -0.5px) rotate(2.5deg);
+      }
+      90% {
+        transform: translate(0, 2.5px) rotate(-0.5deg);
+      }
+      92% {
+        transform: translate(0, 0.5px) rotate(-0.5deg);
+      }
+      94% {
+        transform: translate(0, 2.5px) rotate(0.5deg);
+      }
+      96% {
+        transform: translate(0, -0.5px) rotate(1.5deg);
+      }
+      98% {
+        transform: translate(0, -1.5px) rotate(-0.5deg);
+      }
+      0%,
+      100% {
+        transform: translate(0, 0) rotate(0deg);
+      }
+    }
+  </style>
+  <div>基于
+    <a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/xaoxuu/hexo-theme-stellar">Stellar</a>
+    &nbsp;| <a href="https://icp.gov.moe" target="_blank" style="color: pink;">萌ICP备 </a><a href="https://icp.gov.moe/?keyword=20219713" target="_blank" style="color: pink;"> 20219713号</a>
+  </div>
+</center>
+</div></footer>
+
+      <div class='float-panel mobile-only blur' style='display:none'>
+  <button type='button' class='sidebar-toggle mobile' onclick='sidebar.toggle()'>
+    <svg class="icon" style="width: 1em; height: 1em;vertical-align: middle;fill: currentColor;overflow: hidden;" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="15301"><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 2.3 26.8 24.6 47.5 51.6 47.6h416.5v4z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15302"></path><path d="M566.407 808.3c26.9-0.1 49.3-20.8 51.6-47.6-1.9-27.7-23.9-49.7-51.6-51.6h-412.6c-28.2-1.4-52.6 19.5-55.5 47.6 1.9 27.7 23.9 49.7 51.6 51.6h416.5z m309.3-249.9c26.9-0.1 49.3-20.8 51.6-47.6-2.2-26.8-24.6-47.5-51.6-47.6h-721.9c-27.7-2.8-52.5 17.4-55.3 45.1-0.1 0.8-0.1 1.7-0.2 2.5 0.9 27.2 23.6 48.5 50.7 47.6H875.707z m-103.1-245.9c26.9-0.1 49.3-20.8 51.6-47.6-0.4-28.3-23.2-51.1-51.5-51.6h-618.9c-29.5-1.1-54.3 21.9-55.5 51.4v0.2c1.4 27.8 25.2 49.2 53 47.8 0.8 0 1.7-0.1 2.5-0.2h618.8z" p-id="15303"></path></svg>
+  </button>
+</div>
+
+    </div>
+  </div>
+  <div class='scripts'>
+    <script type="text/javascript">
+  const stellar = {
+    // 懒加载 css https://github.com/filamentgroup/loadCSS
+    loadCSS: (href, before, media, attributes) => {
+      var doc = window.document;
+      var ss = doc.createElement("link");
+      var ref;
+      if (before) {
+        ref = before;
+      } else {
+        var refs = (doc.body || doc.getElementsByTagName("head")[0]).childNodes;
+        ref = refs[refs.length - 1];
+      }
+      var sheets = doc.styleSheets;
+      if (attributes) {
+        for (var attributeName in attributes) {
+          if (attributes.hasOwnProperty(attributeName)) {
+            ss.setAttribute(attributeName, attributes[attributeName]);
+          }
+        }
+      }
+      ss.rel = "stylesheet";
+      ss.href = href;
+      ss.media = "only x";
+      function ready(cb) {
+        if (doc.body) {
+          return cb();
+        }
+        setTimeout(function () {
+          ready(cb);
+        });
+      }
+      ready(function () {
+        ref.parentNode.insertBefore(ss, before ? ref : ref.nextSibling);
+      });
+      var onloadcssdefined = function (cb) {
+        var resolvedHref = ss.href;
+        var i = sheets.length;
+        while (i--) {
+          if (sheets[i].href === resolvedHref) {
+            return cb();
+          }
+        }
+        setTimeout(function () {
+          onloadcssdefined(cb);
+        });
+      };
+      function loadCB() {
+        if (ss.addEventListener) {
+          ss.removeEventListener("load", loadCB);
+        }
+        ss.media = media || "all";
+      }
+      if (ss.addEventListener) {
+        ss.addEventListener("load", loadCB);
+      }
+      ss.onloadcssdefined = onloadcssdefined;
+      onloadcssdefined(loadCB);
+      return ss;
+    },
+
+    // 从 butterfly 和 volantis 获得灵感
+    loadScript: (src, opt) => new Promise((resolve, reject) => {
+      var script = document.createElement('script');
+      if (src.startsWith('/')){
+        src = stellar.config.root + src.substring(1);
+      }
+      script.src = src;
+      if (opt) {
+        for (let key of Object.keys(opt)) {
+          script[key] = opt[key]
+        }
+      } else {
+        // 默认异步，如果需要同步，第二个参数传入 {} 即可
+        script.async = true
+      }
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    }),
+
+    // https://github.com/jerryc127/hexo-theme-butterfly
+    jQuery: (fn) => {
+      if (typeof jQuery === 'undefined') {
+        stellar.loadScript(stellar.plugins.jQuery).then(fn)
+      } else {
+        fn()
+      }
+    }
+  };
+  stellar.version = '1.18.5';
+  stellar.github = 'https://github.com/xaoxuu/hexo-theme-stellar/tree/1.18.5';
+  stellar.config = {
+    date_suffix: {
+      just: '刚刚',
+      min: '分钟前',
+      hour: '小时前',
+      day: '天前',
+      month: '个月前',
+    },
+    root : '/',
+  };
+
+  // required plugins (only load if needs)
+  stellar.plugins = {
+    jQuery: 'https://gcore.jsdelivr.net/npm/jquery@3.6.2/dist/jquery.min.js'
+  };
+
+  if ('local_search') {
+    stellar.search = {};
+    stellar.search.service = 'local_search';
+    if (stellar.search.service == 'local_search') {
+      let service_obj = Object.assign({}, {"field":"all","path":"/search.json","content":true,"codeblock":true,"sort":"-date"});
+      stellar.search[stellar.search.service] = service_obj;
+    }
+  }
+
+  // stellar js
+  stellar.plugins.stellar = Object.assign({"sites":"/js/plugins/sites.js","friends":"/js/plugins/friends.js","ghinfo":"/js/plugins/ghinfo.js","timeline":"/js/plugins/timeline.js","linkcard":"/js/plugins/linkcard.js","fcircle":"/js/plugins/fcircle.js","weibo":"/js/plugins/weibo.js"});
+
+  stellar.plugins.marked = Object.assign("https://cdn.bootcdn.net/ajax/libs/marked/4.0.18/marked.min.js");
+  // optional plugins
+  if ('true' == 'true') {
+    stellar.plugins.lazyload = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/vanilla-lazyload@17.8.3/dist/lazyload.min.js","transition":"blur"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.swiper = Object.assign({"enable":true,"css":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.css","js":"https://unpkg.com/swiper@8.4.5/swiper-bundle.min.js"});
+  }
+  if ('' == 'true') {
+    stellar.plugins.scrollreveal = Object.assign({"enable":null,"js":"https://gcore.jsdelivr.net/npm/scrollreveal@4.0.9/dist/scrollreveal.min.js","distance":"8px","duration":500,"interval":100,"scale":1});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.preload = Object.assign({"enable":true,"service":"flying_pages","instant_page":"https://gcore.jsdelivr.net/gh/volantis-x/cdn-volantis@4.1.2/js/instant_page.js","flying_pages":"https://gcore.jsdelivr.net/gh/gijo-varghese/flying-pages@2.1.2/flying-pages.min.js"});
+  }
+  if ('true' == 'true') {
+    stellar.plugins.fancybox = Object.assign({"enable":true,"js":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.umd.js","css":"https://gcore.jsdelivr.net/npm/@fancyapps/ui@4.0/dist/fancybox.css","selector":".swiper-slide img"});
+  }
+  if ('false' == 'true') {
+    stellar.plugins.heti = Object.assign({"enable":false,"css":"https://unpkg.com/heti@0.9.2/umd/heti.min.css","js":"https://unpkg.com/heti@0.9.2/umd/heti-addon.min.js"});
+  }
+</script>
+
+<!-- required -->
+
+  
+<script src="/js/main.js" async></script>
+
+
+
+<!-- optional -->
+
+  <script>
+  function load_comment(){
+    if(!document.getElementById("waline_container"))return;
+    stellar.loadCSS('https://unpkg.com/@waline/client@v2/dist/waline.css');
+    stellar.loadScript('https://unpkg.com/@waline/client@v2/dist/waline.js', {defer:true}).then(function () {
+      const el = document.getElementById("waline_container");
+      var path = el.getAttribute('comment_id');
+      if (!path) {
+        path = decodeURI(window.location.pathname);
+      }
+      Waline.init(Object.assign({"js":"https://unpkg.com/@waline/client@v2/dist/waline.js","css":"https://unpkg.com/@waline/client@v2/dist/waline.css","serverURL":"https://blog.silkyheart.moe","commentCount":false,"pageview":false,"locale":{"placeholder":"欢迎评论"},"search":false,"emoji":["https://gcore.jsdelivr.net/gh/norevi/waline-blobcatemojis@1.0/blobs"]}, {
+        el: '#waline_container',
+        path: path,
+        
+      }));
+    });
+  }
+  window.addEventListener('DOMContentLoaded', (event) => {
+    console.log('DOM fully loaded and parsed');
+    load_comment();
+  });
+
+</script>
+
+
+
+
+<!-- inject -->
+
+
+  </div>
+<!-- hexo injector body_end start -->
+  <style>
+    .highlight {
+      position: relative;
+    }
+    .highlight .code .copy-btn{
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 4px 0.5rem;
+      opacity: 0.25;
+      font-weight: 700;
+      color: var(--theme);
+      cursor: pointer;
+      transination: opacity 0.3s;
+    }
+    .highlight .code .copy-btn:hover{
+      color: var(--text-code);
+      opacity: 0.75;
+    }
+    .highlight .code .copy-btn.success {
+      color: var(--swiper-theme-color);
+      opacity: 0.75;
+
+    }
+    
+  </style>
+  <script>
+    const codeElementArr = document.querySelectorAll('.code')
+    codeElementArr.forEach(code => {
+      const codeBeforeWidth = window.getComputedStyle(code, '::before').width.split('px')[0]
+      const codeBeforePadding = window.getComputedStyle(code, '::before').padding.split(' ').pop().split('px')[0]
+  
+      // copy btn 
+      const codeCopyBtn = document.createElement('div')
+      codeCopyBtn.classList.add('copy-btn')
+      codeCopyBtn.style.right = Number(codeBeforeWidth) + Number(codeBeforePadding) * 2 + 'px'
+      codeCopyBtn.innerText = '复制代码'
+      code.appendChild(codeCopyBtn)
+  
+      codeCopyBtn.addEventListener('click', async () => {
+        const currentCodeElement = code.children[0]?.innerText
+        await copyCode(currentCodeElement)
+
+
+        codeCopyBtn.innerText = '复制成功'
+        codeCopyBtn.classList.add('success')
+
+        setTimeout(() => {
+          codeCopyBtn.innerText = '复制代码'
+          codeCopyBtn.classList.remove('success')
+        },1000)
+      })
+    })
+    
+    async function copyCode(currentCode) {
+      console.log(currentCode)
+      console.log('复制代码')
+      if (navigator.clipboard) {
+        try {
+          await navigator.clipboard.writeText(currentCode)
+        } catch (error) {
+          // 未获得用户许可
+          console.error(error)
+        }
+      } else {
+        console.error('当前浏览器不支持此api')
+      }
+    }
+  </script>
+  
+  <div id="sakana-widget"></div>
+  <style>
+    #sakana-widget {
+      position: fixed;
+      bottom:0;
+      left:0;
+    }
+  </style>
+  <script>
+    function initSakanaWidget() {
+      new SakanaWidget().setState({ i: 0.001, d: 1 }).mount('#sakana-widget');
+    }
+  </script>
+  <!-- hexo injector body_end end --></body>
+</html>
